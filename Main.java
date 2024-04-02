@@ -13,19 +13,22 @@ public class Main {
         System.out.println(utilizator.getEmail());
 
             //verificari Client
-        Client client = new Client("Mihai Popescu", "mihai.popescu@email.com", "Strada Libertatii", "10", "Bucuresti");
+        Client client = new Client("Mihai Popescu", "mihai.popescu@email.com", "Strada Libertatii", "10", "Bucuresti", true);
 
         System.out.println( client.getAdresaCompleta());
 
-        System.out.println( client.getNume());
-        System.out.println( client.getEmail());
+        System.out.println(client.getNume());
+        System.out.println(client.getEmail());
         System.out.println( client.getStrada());
         System.out.println( client.getNumar());
         System.out.println( client.getOras());
+        System.out.println( client.getIsPremium());
 
         client.setStrada("Strada Unirii");
         client.setNumar("20A");
         client.setOras("Cluj-Napoca");
+        client.setPremium(false);
+        System.out.println( client.getIsPremium());
 
         System.out.println(client.getAdresaCompleta());
     }

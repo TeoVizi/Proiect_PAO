@@ -7,6 +7,11 @@ public class Utilizator {
         this.email = email;
     }
 
+    public Utilizator() {
+        this.nume = null;
+        this.email = null;
+    }
+
     public String getNume() {
         return nume;
     }
