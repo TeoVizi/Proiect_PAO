@@ -79,12 +79,12 @@ public class Main {
 
         ItemComanda comanda1 = new ItemComanda();
 
-        comanda1.setItemComanda(new ItemMeniu("Gelato", "Inghetata", 15.0));
+        comanda1.setItemMeniu(new ItemMeniu("Gelato", "Inghetata", 15.0));
         comanda1.setCantitate(3);
 
-        System.out.println(comanda1.getItemComanda().getNume());
-        System.out.println(comanda1.getItemComanda().getDescriere());
+        System.out.println(comanda1.getItemMeniu().getNume());
+        System.out.println(comanda1.getItemMeniu().getDescriere());
         System.out.println(comanda1.getCantitate());
-        System.out.println(comanda1.getItemComanda().getPret() * comanda1.getCantitate() + " lei");
+        System.out.println(comanda1.getItemMeniu().getPret() * comanda1.getCantitate() + " lei");
     }
 }

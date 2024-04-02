@@ -12,7 +12,7 @@ public class ItemComanda {
         this.cantitate = 0;
     }
 
-    public void setItemComanda(ItemMeniu itemMeniu) {
+    public void setItemMeniu(ItemMeniu itemMeniu) {
         this.itemMeniu = itemMeniu;
     }
 
@@ -20,7 +20,7 @@ public class ItemComanda {
         this.cantitate = cantitate;
     }
 
-    public ItemMeniu getItemComanda() {
+    public ItemMeniu getItemMeniu() {
         return itemMeniu;
     }
 
