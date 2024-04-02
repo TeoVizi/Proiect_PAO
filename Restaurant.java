@@ -12,12 +12,26 @@ public class Restaurant {
         this.meniu = new ArrayList<>();
     }
 
+    public Restaurant() {
+        this.nume = null;
+        this.adresa = null;
+        this.meniu = new ArrayList<>();
+    }
+
     public void adaugaMeniu(Meniu meniu) {
         this.meniu.add(meniu);
     }
 
     public List<Meniu> getMeniu() {
         return meniu;
+    }
+
+    public void setAdresa(String adresa) {
+        this.adresa = adresa;
+    }
+
+    public void setNume(String nume) {
+        this.nume = nume;
     }
 
     public String getNume() {
