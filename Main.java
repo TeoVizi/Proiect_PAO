@@ -61,7 +61,7 @@ public class Main {
 
         // verificari Restaurant
 
-        Restaurant restaurant = new Restaurant("Gusto Italiano", "Strada Libertății 23, Oradea");
+        Restaurant restaurant = new Restaurant("Gusto Italiano", "Strada Libertății 23, Oradea", 12.00);
 
         Meniu meniu1 = new Meniu();
         meniu1.adaugaItemMeniu(new ItemMeniu("Pizza Margherita", "Pizza", 22.5));
@@ -71,6 +71,7 @@ public class Main {
 
         System.out.println(restaurant.getNume());
         System.out.println( restaurant.getAdresa());
+        System.out.println( restaurant.getCostLivrare());
         for (ItemMeniu item : restaurant.getMeniu().get(0).getItemiMeniu()) {
             System.out.println(item.getNume());
         }
@@ -87,4 +88,6 @@ public class Main {
         System.out.println(comanda1.getCantitate());
         System.out.println(comanda1.getItemMeniu().getPret() * comanda1.getCantitate() + " lei");
     }
+
+    
 }

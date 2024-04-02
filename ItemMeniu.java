@@ -1,21 +1,41 @@
-public class ItemMeniu extends Item {
+public class ItemMeniu {
+    private String nume;
+    private String descriere;
     private double pret;
 
     public ItemMeniu(String nume, String descriere, double pret) {
-        super(nume, descriere); // Apelarea constructorului din clasa de bază
+        this.nume = nume;
+        this.descriere = descriere;
         this.pret = pret;
     }
 
     public ItemMeniu() {
-        super(); // Apelarea constructorului implicit din clasa de bază
+        this.nume = null;
+        this.descriere = null;
         this.pret = 0;
+    }
+
+    public String getNume() {
+        return nume;
+    }
+
+    public String getDescriere() {
+        return descriere;
     }
 
     public double getPret() {
         return pret;
     }
 
+    public void setDescriere(String descriere) {
+        this.descriere = descriere;
+    }
+
     public void setPret(double pret) {
         this.pret = pret;
+    }
+
+    public void setNume(String nume) {
+        this.nume = nume;
     }
 }
