@@ -74,5 +74,17 @@ public class Main {
         for (ItemMeniu item : restaurant.getMeniu().get(0).getItemiMeniu()) {
             System.out.println(item.getNume());
         }
+
+        //verif ItemComanda
+
+        ItemComanda comanda1 = new ItemComanda();
+
+        comanda1.setItemComanda(new ItemMeniu("Gelato", "Inghetata", 15.0));
+        comanda1.setCantitate(3);
+
+        System.out.println(comanda1.getItemComanda().getNume());
+        System.out.println(comanda1.getItemComanda().getDescriere());
+        System.out.println(comanda1.getCantitate());
+        System.out.println(comanda1.getItemComanda().getPret() * comanda1.getCantitate() + " lei");
     }
 }
