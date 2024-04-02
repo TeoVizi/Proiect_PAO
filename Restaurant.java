@@ -5,17 +5,20 @@ public class Restaurant {
     private String nume;
     private String adresa;
     private List<Meniu> meniu;
+    private double costLivrare;
 
-    public Restaurant(String nume, String adresa) {
+    public Restaurant(String nume, String adresa, double costLivrare) {
         this.nume = nume;
         this.adresa = adresa;
         this.meniu = new ArrayList<>();
+        this.costLivrare = costLivrare;
     }
 
     public Restaurant() {
         this.nume = null;
         this.adresa = null;
         this.meniu = new ArrayList<>();
+        this.costLivrare = 0;
     }
 
     public void adaugaMeniu(Meniu meniu) {
@@ -40,5 +43,13 @@ public class Restaurant {
 
     public String getAdresa() {
         return adresa;
+    }
+
+    public void setCostLivrare(double costLivrare) {
+        this.costLivrare = costLivrare;
+    }
+
+    public double getCostLivrare() {
+        return costLivrare;
     }
 }
