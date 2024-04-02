@@ -31,5 +31,18 @@ public class Main {
         System.out.println( client.getIsPremium());
 
         System.out.println(client.getAdresaCompleta());
+
+            //verificari ItemMeniu
+
+        ItemMeniu pizzaMargherita = new ItemMeniu("Pizza Margherita", "Pizza", 35.0);
+
+        System.out.println(pizzaMargherita.getNume());
+        System.out.println(pizzaMargherita.getPret());
+        System.out.println(pizzaMargherita.getDescriere());
+
+        pizzaMargherita.setDescriere("Pizza bombastica");
+        System.out.println(pizzaMargherita.getDescriere());
+
+
     }
 }

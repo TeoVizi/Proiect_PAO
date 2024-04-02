@@ -26,4 +26,16 @@ public class ItemMeniu {
     public double getPret() {
         return pret;
     }
+
+    public void setNume(String nume) {
+        this.nume = nume;
+    }
+
+    public void setDescriere(String descriere) {
+        this.descriere = descriere;
+    }
+
+    public void setPret(double pret) {
+        this.pret = pret;
+    }
 }
