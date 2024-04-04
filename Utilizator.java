@@ -1,15 +1,21 @@
 public class Utilizator {
     protected String nume;
     protected String email;
+    private String username;
+    private String parola;
 
-    public Utilizator(String nume, String email) {
+    public Utilizator(String nume, String email, String username, String parola) {
         this.nume = nume;
         this.email = email;
+        this.username = username;
+        this.parola = parola;
     }
 
     public Utilizator() {
         this.nume = null;
         this.email = null;
+        this.username = null;
+        this.parola = null;
     }
 
     public String getNume() {
@@ -26,5 +32,21 @@ public class Utilizator {
 
     public void setEmail(String Email) {
         this.email = email;
+    }
+
+    public String getParola() {
+        return parola;
+    }
+
+    public void setParola(String parola) {
+        this.parola = parola;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
