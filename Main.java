@@ -4,6 +4,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         boolean page1 = true;
+        boolean page2 =true;
 
         while (page1) {
         System.out.println("Bine ati venit in aplicatia de food delivery YumYumDelivery!");
@@ -54,7 +55,7 @@ public class Main {
                 }
 
             if (optiune2 == 2) {
-                    System.out.println("Ati ales optiunea Sofer:");
+                    System.out.println("Ati ales optiunea SOFER:");
                     System.out.println("Nume:");
                     String nume = scan.next();
                     System.out.println("Email:");
@@ -80,7 +81,7 @@ public class Main {
                     }
 
             if (optiune2 == 3) {
-                System.out.println("Ati ales optiunea Sofer:");
+                System.out.println("Ati ales optiunea MANAGER:");
                 System.out.println("Nume:");
                 String nume = scan.next();
                 System.out.println("Email:");
@@ -100,12 +101,46 @@ public class Main {
                 String parola = scan.next();
                 Manager manager = new Manager(nume,email,username,parola);
                 Service.adaugaManager(manager);
-            }
+                    }
+
+                }
+
+                if (optiune1 == 2) {
+                    int[] rezultat = {0,0};
+                    boolean logat = false;
+                    while (!logat) {
+                        System.out.println("Introduceti user-ul:");
+                        String username = scan.next();
+                        System.out.println("Introduceti parola:");
+                        String parola = scan.next();
+                        if (Service.logareUtilizator(username,parola)[0] == 0) {
+                            System.out.println("Username sau parola incorecte!");
+                        } else {
+                            logat = true;
+                            rezultat = Service.logareUtilizator(username,parola);
+                        }
+                    }
+
+                    if (rezultat[1] == 1){
+                        System.out.println("Client");
+                    }
+
+                    if (rezultat[1] == 2){
+                        System.out.println("Sofer");
+                    }
+
+                    if (rezultat[1] == 3){
+                        System.out.println("Manager");
+                    }
+
 
                 }
 
             }
+
         }
 
-    }
+
+
+}
 

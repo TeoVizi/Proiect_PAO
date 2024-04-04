@@ -31,8 +31,19 @@ public class Service {
     public static void adaugaManager(Manager manager) {
         utilizatori.add(manager);
     }
-    public static ArrayList<Utilizator> getUtilizatori()
-    {
-        return utilizatori;
+    public static int[] logareUtilizator(String username, String parola) {
+        for (Utilizator utilizator : utilizatori) {
+            if (utilizator.getUsername().equals(username) && utilizator.getParola().equals(parola)) {
+                if (utilizator instanceof Client) {
+                    return new int[]{1, 1};
+                } else if (utilizator instanceof Sofer) {
+                    return new int[]{1, 2};
+                } else if (utilizator instanceof Manager) {
+                    return new int[]{1, 3};
+                }
+            }
+        }
+
+        return new int[]{0, 0};
     }
 }
