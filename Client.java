@@ -4,7 +4,7 @@ public class Client extends Utilizator {
     private String oras;
     private boolean isPremium;
 
-    public Client(String nume, String email,String username, String parola, String strada, String numar, String oras,boolean isPremium) {
+    public Client(String nume, String email, String username, String parola, String strada, String numar, String oras ,boolean isPremium) {
         super(nume, email, username, parola);
         this.strada = strada;
         this.numar = numar;

@@ -1,93 +1,111 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        Utilizator utilizator = new Utilizator("George Ionescu", "george.ionescu@email.com");
+        Scanner scan = new Scanner(System.in);
+        boolean page1 = true;
 
-            //verificari Utilizator
-        System.out.println(utilizator.getNume());
-        System.out.println(utilizator.getEmail());
+        while (page1) {
+        System.out.println("Bine ati venit in aplicatia de food delivery YumYumDelivery!");
+        System.out.println("Va rugam sa alegeti o actiune de mai jos:");
+        System.out.println("1. Creati un cont nou");
+        System.out.println("2. Logare");
 
-        utilizator.setNume("George Alin Ionescu");
-        utilizator.setEmail("george.a.ionescu@email.com");
+        int optiune1 = scan.nextInt();
 
-        System.out.println(utilizator.getNume());
-        System.out.println(utilizator.getEmail());
+        if (optiune1 == 1) {
+            System.out.println("Alegeti tipul de cont pe care il doriti sau intoarceti-va la pagina anterioara:");
+            System.out.println("1. Client");
+            System.out.println("2. Sofer");
+            System.out.println("3. Manager");
+            System.out.println("4. Inapoi la pagina principala");
 
-            //verificari Client
-        Client client = new Client("Mihai Popescu", "mihai.popescu@email.com", "Strada Libertatii", "10", "Bucuresti", true);
+            int optiune2 = scan.nextInt();
 
-        System.out.println( client.getAdresaCompleta());
+            if (optiune2 == 1) {
+                System.out.println("Ati ales optiunea CLIENT:");
+                System.out.println("Nume:");
+                String nume = scan.next();
+                System.out.println("Email:");
+                String email = scan.next();
+                boolean unic = false;
+                String username = "";
+                while (!unic) {
+                    System.out.println("Username:");
+                    username = scan.next();
+                    if(Service.unicitateUsername(username)) {
+                        unic = true;
+                    } else {
+                        System.out.println("Utilizator deja existent! Introdu alt username!");
+                    }
+                }
+                System.out.println("Parola:");
+                String parola = scan.next();
+                System.out.println("Strada:");
+                String strada = scan.next();
+                System.out.println("Numar:");
+                String numar = scan.next();
+                System.out.println("Oras:");
+                String oras = scan.next();
+                System.out.println("Premium? (true/ false):");
+                boolean premium = scan.nextBoolean();
+                Client client = new Client(nume, email, username, parola, strada, numar, oras, premium);
+                Service.adaugaClient(client);
+                }
 
-        System.out.println(client.getNume());
-        System.out.println(client.getEmail());
-        System.out.println( client.getStrada());
-        System.out.println( client.getNumar());
-        System.out.println( client.getOras());
-        System.out.println( client.getIsPremium());
+            if (optiune2 == 2) {
+                    System.out.println("Ati ales optiunea Sofer:");
+                    System.out.println("Nume:");
+                    String nume = scan.next();
+                    System.out.println("Email:");
+                    String email = scan.next();
+                    boolean unic = false;
+                    String username = "";
+                    while (!unic) {
+                        System.out.println("Username:");
+                        username = scan.next();
+                        if(Service.unicitateUsername(username)) {
+                            unic = true;
+                        } else {
+                            System.out.println("Utilizator deja existent! Introdu alt username!");
+                        }
+                    }
 
-        client.setStrada("Strada Unirii");
-        client.setNumar("20A");
-        client.setOras("Cluj-Napoca");
-        client.setPremium(false);
-        System.out.println( client.getIsPremium());
+                    System.out.println("Parola:");
+                    String parola = scan.next();
+                    System.out.println("Locatia (orasul):");
+                    String locatie = scan.next();
+                    Sofer sofer = new Sofer(nume,email,username,parola,locatie);
+                    Service.adaugaSofer(sofer);
+                    }
 
-        System.out.println(client.getAdresaCompleta());
+            if (optiune2 == 3) {
+                System.out.println("Ati ales optiunea Sofer:");
+                System.out.println("Nume:");
+                String nume = scan.next();
+                System.out.println("Email:");
+                String email = scan.next();
+                boolean unic = false;
+                String username = "";
+                while (!unic) {
+                    System.out.println("Username:");
+                    username = scan.next();
+                    if(Service.unicitateUsername(username)) {
+                        unic = true;
+                    } else {
+                        System.out.println("Utilizator deja existent! Introdu alt username!");
+                    }
+                }
+                System.out.println("Parola:");
+                String parola = scan.next();
+                Manager manager = new Manager(nume,email,username,parola);
+                Service.adaugaManager(manager);
+            }
 
-            //verificari ItemMeniu
+                }
 
-        ItemMeniu pizzaMargherita = new ItemMeniu("Pizza Margherita", "Pizza", 35.0);
-
-        System.out.println(pizzaMargherita.getNume());
-        System.out.println(pizzaMargherita.getPret());
-        System.out.println(pizzaMargherita.getDescriere());
-
-        pizzaMargherita.setDescriere("Pizza bombastica");
-        System.out.println(pizzaMargherita.getDescriere());
-
-            // verificaro Meniu
-
-        Meniu meniu = new Meniu();
-
-        meniu.adaugaItemMeniu(new ItemMeniu("Pizza Margherita", "Pizza", 35.0));
-        meniu.adaugaItemMeniu(new ItemMeniu("Lasagna", "Lasagn", 45.0));
-        meniu.adaugaItemMeniu(new ItemMeniu("Tiramisu", "Tiramisu", 25.0));
-
-
-        for (ItemMeniu item : meniu.getItemiMeniu()) {
-            System.out.println(item.getNume());
-            System.out.println( item.getDescriere());
-            System.out.println(  item.getPret() + " lei");
-            System.out.println();
+            }
         }
 
-        // verificari Restaurant
-
-        Restaurant restaurant = new Restaurant("Gusto Italiano", "Strada Libertății 23, Oradea", 12.00);
-
-        Meniu meniu1 = new Meniu();
-        meniu1.adaugaItemMeniu(new ItemMeniu("Pizza Margherita", "Pizza", 22.5));
-        meniu1.adaugaItemMeniu(new ItemMeniu("Pasta Carbonara", "Spaghete", 27.0));
-
-        restaurant.adaugaMeniu(meniu1);
-
-        System.out.println(restaurant.getNume());
-        System.out.println( restaurant.getAdresa());
-        System.out.println( restaurant.getCostLivrare());
-        for (ItemMeniu item : restaurant.getMeniu().get(0).getItemiMeniu()) {
-            System.out.println(item.getNume());
-        }
-
-        //verif ItemComanda
-
-        ItemComanda comanda1 = new ItemComanda();
-
-        comanda1.setItemMeniu(new ItemMeniu("Gelato", "Inghetata", 15.0));
-        comanda1.setCantitate(3);
-
-        System.out.println(comanda1.getItemMeniu().getNume());
-        System.out.println(comanda1.getItemMeniu().getDescriere());
-        System.out.println(comanda1.getCantitate());
-        System.out.println(comanda1.getItemMeniu().getPret() * comanda1.getCantitate() + " lei");
     }
 
-    
-}
