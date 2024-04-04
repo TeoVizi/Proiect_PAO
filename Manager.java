@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class Manager extends Utilizator{
     private ArrayList<Restaurant> restaurante;
 
-    public Manager(String nume, String email, ArrayList<Restaurant> restaurante) {
-        super(nume, email);
+    public Manager(String nume, String email,String username, String parola, ArrayList<Restaurant> restaurante) {
+        super(nume, email, username, parola );
         this.restaurante = restaurante;
     }
 
