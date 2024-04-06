@@ -4,10 +4,11 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         boolean page1 = true;
-        boolean page2 =true;
+        boolean page2;
         Service.initializeData();
 
         while (page1) {
+        page2 = true;
         System.out.println("Bine ati venit in aplicatia de food delivery YumYumDelivery!");
         System.out.println("Va rugam sa alegeti o actiune de mai jos:");
         System.out.println("1. Creati un cont nou");
@@ -140,6 +141,7 @@ public class Main {
                             System.out.println("1. Creaza restaurant");
                             System.out.println("2. Adauga preparate la meniul unui restaurant existent:");
                             System.out.println("3. Afiseaza restaurantele mele");
+                            System.out.println("4. Logout");
                             int optiune3 = scan.nextInt();
                             if (optiune3 == 1) {
                                 System.out.println("Introduceti numele restaurantului pe care doriti sa il creati:");
@@ -179,9 +181,15 @@ public class Main {
                                             System.out.println("Introdu pret:");
                                             double pret = scan.nextDouble();
                                             ItemMeniu preparat = new ItemMeniu(numePreparat,descriere,pret);
-                                            Service.adaugaItemMeniuRestaurant();
+                                            Service.adaugaItemMeniuRestaurant(Service.gasesteRestaurant(Service.gasesteManager(username),restaurant),preparat);
                                             unic = true;
+                                        } else {
+                                            System.out.println("Restaurantul nu exista. Introdu alt restaurant.");
+                                            }
                                         }
+                                    }
+                            if (optiune3 == 4) {
+                                        page2 = false;
                                     }
 
                                 }
@@ -196,7 +204,6 @@ public class Main {
 
             }
 
-        }
 
 
 

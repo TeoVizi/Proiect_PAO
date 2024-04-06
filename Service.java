@@ -139,22 +139,16 @@ public class Service {
     }
 
     public static Restaurant gasesteRestaurant(Manager manager, String numeRestaurant) {
-        // Verificați dacă managerul are asociate restaurante
         if (managerRestaurantMap.containsKey(manager)) {
-            // Obțineți lista de restaurante asociate managerului
             List<Restaurant> restauranteManager = managerRestaurantMap.get(manager);
 
-            // Parcurgeți lista de restaurante
             for (Restaurant restaurant : restauranteManager) {
-                // Verificați dacă numele restaurantului corespunde cu cel căutat
                 if (restaurant.getNume().equalsIgnoreCase(numeRestaurant)) {
-                    // Returnați restaurantul găsit
                     return restaurant;
                 }
             }
         }
 
-        // Returnați null dacă restaurantul nu a fost găsit sau managerul nu are restaurante asociate
         return null;
     }
 
