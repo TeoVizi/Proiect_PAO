@@ -37,8 +37,20 @@ public class Comanda {
         if (client != null && client.getIsPremium()) {
             this.totalPlata = totalItems; //clienții premium nu platesc costul de livrare
         } else {
-            this.totalPlata = totalItems + (restaurant != null ? restaurant.getCostLivrare() : 0); // Include costul de livrare dacă restaurantul este setat
+            this.totalPlata = totalItems + (restaurant != null ? restaurant.getCostLivrare() : 0); // include costul de livrare daca restaurantul este setat
         }
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public List<ItemComanda> getListaItemiComandati() {
+        return listaItemiComandati;
     }
 
     public String getStatus() {

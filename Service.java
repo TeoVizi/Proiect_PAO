@@ -25,7 +25,7 @@ public class Service {
         utilizatori.add(manager1);
         utilizatori.add(manager2);
 
-        Restaurant restaurant1 = new Restaurant("Restaurant1", "Str. A", 10.0);
+        Restaurant restaurant1 = new Restaurant("Restaurant1", "Str. A", 20.0);
         Restaurant restaurant2 = new Restaurant("Restaurant2", "Str. B", 15.0);
         restaurante.add(restaurant1);
         restaurante.add(restaurant2);
@@ -35,12 +35,12 @@ public class Service {
         Meniu meniu1 = new Meniu();
         meniu1.adaugaItemMeniu(new ItemMeniu("Pizza", "Pizza delicioasă", 25.0));
         meniu1.adaugaItemMeniu(new ItemMeniu("Paste", "Paste cu sos de roșii", 20.0));
-        meniu1.adaugaItemMeniu(new ItemMeniu("Salată", "Salată verde cu legume", 15.0));
+        meniu1.adaugaItemMeniu(new ItemMeniu("Salata", "Salată verde cu legume", 15.0));
         meniuri.put(restaurant1, meniu1);
 
         Meniu meniu2 = new Meniu();
         meniu2.adaugaItemMeniu(new ItemMeniu("Burger", "Burger american clasic", 30.0));
-        meniu2.adaugaItemMeniu(new ItemMeniu("Friptură", "Friptură de porc cu cartofi", 40.0));
+        meniu2.adaugaItemMeniu(new ItemMeniu("Friptura", "Friptură de porc cu cartofi", 40.0));
         meniu2.adaugaItemMeniu(new ItemMeniu("Desert", "Cheesecake cu fructe de pădure", 15.0));
         meniuri.put(restaurant2, meniu2);
     }
@@ -124,6 +124,16 @@ public class Service {
         return false;
     }
 
+    public static boolean restaurantExistentClient(String numeRestaurant) {
+        for (Restaurant restaurant : restaurante) {
+            if (restaurant.getNume().equalsIgnoreCase(numeRestaurant)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public static void adaugaItemMeniuRestaurant(Restaurant restaurant, ItemMeniu item) {
         if (meniuri.containsKey(restaurant)) {
             Meniu meniu = meniuri.get(restaurant);
@@ -138,7 +148,7 @@ public class Service {
         }
     }
 
-    public static Restaurant gasesteRestaurant(Manager manager, String numeRestaurant) {
+    public static Restaurant gasesteRestaurantManager(Manager manager, String numeRestaurant) {
         if (managerRestaurantMap.containsKey(manager)) {
             List<Restaurant> restauranteManager = managerRestaurantMap.get(manager);
 
@@ -149,6 +159,99 @@ public class Service {
             }
         }
 
+        return null;
+    }
+
+    public static Client gasesteClientDupaUsername(String username) {
+        for (Utilizator utilizator : utilizatori) {
+            if (utilizator instanceof Client && utilizator.getUsername().equals(username)) {
+                return (Client) utilizator;
+            }
+        }
+        return null;
+    }
+
+
+    public static Restaurant gasesteRestaurant(String numeRestaurant) {
+        for (Restaurant restaurant : restaurante) {
+            if (restaurant.getNume().equalsIgnoreCase(numeRestaurant)) {
+                return restaurant;
+            }
+        }
+        return null;
+    }
+    public static ItemMeniu gasesteItemMeniu(String numeItem) {
+        for (Map.Entry<Restaurant, Meniu> entry : meniuri.entrySet()) {
+            Meniu meniu = entry.getValue();
+            if (meniu != null) {
+                List<ItemMeniu> itemeMeniu = meniu.getListaItemiMeniu();
+                for (ItemMeniu item : itemeMeniu) {
+                    if (item.getNume().equalsIgnoreCase(numeItem)) {
+                        return item;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+
+
+    public static void afiseazaRestaurante() {
+        if (!restaurante.isEmpty()) {
+            for (Restaurant restaurant : restaurante) {
+                System.out.println("- " + restaurant.getNume());
+            }
+        } else {
+            System.out.println("Nu exista restaurante disponibile în sistem.");
+        }
+    }
+
+    public static void afiseazaMeniuRestaurant(Restaurant restaurant) {
+        Meniu meniu = meniuri.get(restaurant);
+        if (meniu != null && !meniu.getListaItemiMeniu().isEmpty()) {
+            System.out.println("Meniul pentru restaurantul " + restaurant.getNume() + " este:");
+            for (ItemMeniu item : meniu.getListaItemiMeniu()) {
+                System.out.println("- " + item.getNume() + ": " + item.getDescriere() + " - " + item.getPret() + " lei");
+            }
+        } else {
+            System.out.println("Nu exista meniu pentru restaurantul " + restaurant.getNume() + ".");
+        }
+    }
+
+
+    public static boolean existaItemMeniuRestaurant(Restaurant restaurant, String numeItem) {
+        if (restaurant != null) {
+            Meniu meniu = meniuri.get(restaurant);
+            if (meniu != null) {
+                List<ItemMeniu> itemeMeniu = meniu.getListaItemiMeniu();
+                for (ItemMeniu item : itemeMeniu) {
+                    if (item.getNume().equalsIgnoreCase(numeItem)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static void afiseazaTotalComanda(Comanda comanda) {
+        Client client = comanda.getClient();
+        Restaurant restaurant = comanda.getRestaurant();
+        double totalPlata = comanda.getTotalPlata();
+
+        System.out.println("Totalul comenzii: " + totalPlata);
+    }
+
+    public static Sofer gasesteSoferDupaUsername(String username) {
+        for (Utilizator utilizator : utilizatori) {
+            if (utilizator instanceof Sofer) {
+                Sofer sofer = (Sofer) utilizator;
+                if (sofer.getUsername().equals(username)) {
+                    return sofer;
+                }
+            }
+        }
         return null;
     }
 

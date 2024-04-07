@@ -12,7 +12,8 @@ public class Meniu {
         listaItemiMeniu.add(item);
     }
 
-    public List<ItemMeniu> getItemiMeniu() {
+    public List<ItemMeniu> getListaItemiMeniu() {
         return listaItemiMeniu;
     }
+
 }

@@ -16,6 +16,10 @@ public class Sofer extends Utilizator {
         return locatie;
     }
 
+    public void setDisponibilitate(boolean disponibilitate) {
+        this.disponibilitate = disponibilitate;
+    }
+
     public void setLocatie(String locatie) {
         this.locatie = locatie;
     }
