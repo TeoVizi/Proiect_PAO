@@ -3,9 +3,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+
+
 
 public class Service {
-    private static ArrayList<Utilizator> utilizatori = new ArrayList<>() ;
+    private static List<Utilizator> utilizatori = new ArrayList<>() ;
     private static List<Restaurant> restaurante = new ArrayList<>();
 
     private static Map<Manager, List<Restaurant>> managerRestaurantMap = new HashMap<>();
@@ -30,7 +34,11 @@ public class Service {
         restaurante.add(restaurant1);
         restaurante.add(restaurant2);
 
+        sortRestaurante();
+
         managerRestaurantMap.put(manager1, new ArrayList<>(Arrays.asList(restaurant1, restaurant2)));
+        sortRestauranteManager(manager1);
+        sortRestauranteManager(manager2);
 
         Meniu meniu1 = new Meniu();
         meniu1.adaugaItemMeniu(new ItemMeniu("Pizza", "Pizza delicioasă", 25.0));
@@ -43,6 +51,23 @@ public class Service {
         meniu2.adaugaItemMeniu(new ItemMeniu("Friptura", "Friptură de porc cu cartofi", 40.0));
         meniu2.adaugaItemMeniu(new ItemMeniu("Desert", "Cheesecake cu fructe de pădure", 15.0));
         meniuri.put(restaurant2, meniu2);
+    }
+
+    public static void sortRestaurante() {
+        Collections.sort(restaurante, new Comparator<Restaurant>() {
+            @Override
+            public int compare(Restaurant r1, Restaurant r2) {
+                return r1.getNume().compareToIgnoreCase(r2.getNume());
+            }
+        });
+    }
+
+    public static void sortRestauranteManager(Manager manager) {
+        List<Restaurant> restauranteManager = managerRestaurantMap.get(manager);
+
+        if (restauranteManager != null && !restauranteManager.isEmpty()) {
+            Collections.sort(restauranteManager, Comparator.comparing(Restaurant::getNume));
+        }
     }
 
     public static boolean unicitateUsername(String username)
@@ -86,6 +111,8 @@ public class Service {
         }
         restauranteManager.add(restaurant);
         restaurante.add(restaurant);
+        sortRestaurante();
+        sortRestauranteManager(manager);
         managerRestaurantMap.put(manager, restauranteManager);
         System.out.println("Restaurantul " + restaurant.getNume() + " a fost adaugat cu succes pentru managerul " + manager.getNume() + ".");
     }
@@ -135,18 +162,16 @@ public class Service {
 
 
     public static void adaugaItemMeniuRestaurant(Restaurant restaurant, ItemMeniu item) {
-        if (meniuri.containsKey(restaurant)) {
-            Meniu meniu = meniuri.get(restaurant);
-
-            meniu.adaugaItemMeniu(item);
-
+        Meniu meniu = meniuri.get(restaurant);
+        if (meniu == null) {
+            meniu = new Meniu();
             meniuri.put(restaurant, meniu);
-
-            System.out.println("Preparatul '" + item.getNume() + "' a fost adaugat cu succes la meniul restaurantului '" + restaurant.getNume() + "'.");
-        } else {
-            System.out.println("Restaurantul '" + restaurant.getNume() + "' nu exista în sistem. Nu se poate adauga preparatul.");
         }
+        meniu.adaugaItemMeniu(item);
+        System.out.println("Preparatul '" + item.getNume() + "' a fost adaugat cu succes la meniul restaurantului '" + restaurant.getNume() + "'.");
     }
+
+
 
     public static Restaurant gasesteRestaurantManager(Manager manager, String numeRestaurant) {
         if (managerRestaurantMap.containsKey(manager)) {

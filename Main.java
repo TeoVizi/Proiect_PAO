@@ -129,11 +129,16 @@ public class Main {
                     System.out.println("CLIENT");
                     while (page2) {
                         System.out.println("Alegeti un restaurant din urmatoarea lista:");
+                        System.out.println("Pentru logout, introduce-ti 'Logout'");
                         Service.afiseazaRestaurante();
                         String restaurant;
                         boolean exista = false;
                         while (!exista) {
                             restaurant = scan.next();
+                            if (restaurant.equalsIgnoreCase("Logout")) {
+                                page2 = false;
+                                break;
+                            }
                             if (Service.restaurantExistentClient(restaurant)) {
                                 Restaurant obiectRestaurant = Service.gasesteRestaurant(restaurant);
                                 Service.afiseazaMeniuRestaurant(obiectRestaurant);
@@ -160,15 +165,16 @@ public class Main {
                                         } else {
                                             Service.afiseazaTotalComanda(comandaClient);
                                             existaItem = true;
+                                            comanda = false;
                                         }
 
                                     }
-                                    page2 = false;
                                 }
 
                             } else {
                                 System.out.println("Restaurantul nu exista! Introduceti alt restaurant!");
                             }
+                            exista = true;
 
                         }
                     }
