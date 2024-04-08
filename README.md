@@ -31,3 +31,7 @@
 18. existaItemMeniuRestaurant(Restaurant restaurant, String numeItem)
 19. afiseazaTotalComanda(Comanda comanda)
 20. gasesteSoferDupaUsername(String username)
+21. sortRestaurante()
+22. sortRestauranteManager(Manager manager)
+
+
