@@ -11,23 +11,14 @@
 10. Service
 
 ### Interogări/Actiuni:
-1. initializeData()
-2. unicitateUsername(String username)
-3. adaugaClient(Client client)
-4. adaugaSofer(Sofer sofer)
-5. adaugaManager(Manager manager) 
-6. adaugaRestaurant(Manager manager, Restaurant restaurant)
-7. unicitateRestaurant(String numeRestaurant)
-8. afiseazaRestauranteManager(Manager manager)
-9. restaurantExistent(Manager manager, String numeRestaurant)
-10. restaurantExistentClient(String numeRestaurant)
-11. adaugaItemMeniuRestaurant(Restaurant restaurant, ItemMeniu item)
-12. gasesteRestaurantManager(Manager manager, String numeRestaurant)
-13. gasesteClientDupaUsername(String username)
-14. gasesteRestaurant(String numeRestaurant)
-15. gasesteItemMeniu(String numeItem)
-16. afiseazaRestaurante()
-17. afiseazaMeniuRestaurant(Restaurant restaurant)
-18. existaItemMeniuRestaurant(Restaurant restaurant, String numeItem)
-19. afiseazaTotalComanda(Comanda comanda)
-20. gasesteSoferDupaUsername(String username)
+1. Login
+2. Regsiter
+3. Afisare restaurante manager
+4. Creare restaurant (manager)
+5. Logout Manager
+6. Afisare date manager
+7. Introducere preparate in meniu
+8. Clientul poate plasa ocomanda la care se calculeaza la final totalul in functie de atributele lui
+9. Logout Client
+10. Soferul poate deveni disponibil
+

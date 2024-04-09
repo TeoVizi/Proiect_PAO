@@ -128,54 +128,68 @@ public class Main {
                 if (rezultat[1] == 1) {
                     System.out.println("CLIENT");
                     while (page2) {
-                        System.out.println("Alegeti un restaurant din urmatoarea lista:");
-                        System.out.println("Pentru logout, introduce-ti 'Logout'");
-                        Service.afiseazaRestaurante();
-                        String restaurant;
-                        boolean exista = false;
-                        while (!exista) {
-                            restaurant = scan.next();
-                            if (restaurant.equalsIgnoreCase("Logout")) {
-                                page2 = false;
-                                break;
-                            }
-                            if (Service.restaurantExistentClient(restaurant)) {
-                                Restaurant obiectRestaurant = Service.gasesteRestaurant(restaurant);
-                                Service.afiseazaMeniuRestaurant(obiectRestaurant);
-                                boolean comanda = true;
-                                System.out.println("Alege preparatele comenzii tale.");
-                                System.out.println("In cazul in care ai terminat comanda, scrie 'Calculeaza', iar totalul tau va fi calculat.");
-                                Comanda comandaClient = new Comanda(Service.gasesteClientDupaUsername(username), obiectRestaurant);
-                                while (comanda) {
-                                    boolean existaItem = false;
-                                    while (!existaItem) {
-                                        String item = scan.next();
-                                        if (!item.equalsIgnoreCase("Calculeaza")) {
-                                            if (Service.existaItemMeniuRestaurant(obiectRestaurant, item)) {
-                                                System.out.println("Introduce cantitate:");
-                                                int cantitate;
-                                                cantitate = scan.nextInt();
-                                                ItemMeniu itemMeniu = Service.gasesteItemMeniu(item);
-                                                ItemComanda itemComanda = new ItemComanda(itemMeniu, cantitate);
-                                                comandaClient.adaugaItemComanda(itemComanda);
-                                                break;
-                                            } else {
-                                                System.out.println("Item-ul nu exista in meniu!");
-                                            }
-                                        } else {
-                                            Service.afiseazaTotalComanda(comandaClient);
-                                            existaItem = true;
-                                            comanda = false;
-                                        }
+                        System.out.println("Alegeti una din urmatoarele:");
+                        System.out.println("1. Plaseaza o comanda");
+                        System.out.println("2. Devino client premium");
+                        System.out.println("3. Logout");
 
-                                    }
+                        int optiune4 = scan.nextInt();
+
+                        if(optiune4 == 1) {
+
+                            System.out.println("Alegeti un restaurant din urmatoarea lista:");
+                            System.out.println("Pentru logout, introduce-ti 'Logout'");
+                            Service.afiseazaRestaurante();
+                            String restaurant;
+                            boolean exista = false;
+                            while (!exista) {
+                                restaurant = scan.next();
+                                if (restaurant.equalsIgnoreCase("Logout")) {
+                                    page2 = false;
+                                    break;
                                 }
+                                if (Service.restaurantExistentClient(restaurant)) {
+                                    Restaurant obiectRestaurant = Service.gasesteRestaurant(restaurant);
+                                    Service.afiseazaMeniuRestaurant(obiectRestaurant);
+                                    boolean comanda = true;
+                                    System.out.println("Alege preparatele comenzii tale.");
+                                    System.out.println("In cazul in care ai terminat comanda, scrie 'Calculeaza', iar totalul tau va fi calculat.");
+                                    Comanda comandaClient = new Comanda(Service.gasesteClientDupaUsername(username), obiectRestaurant);
+                                    while (comanda) {
+                                        boolean existaItem = false;
+                                        while (!existaItem) {
+                                            String item = scan.next();
+                                            if (!item.equalsIgnoreCase("Calculeaza")) {
+                                                if (Service.existaItemMeniuRestaurant(obiectRestaurant, item)) {
+                                                    System.out.println("Introduce cantitate:");
+                                                    int cantitate;
+                                                    cantitate = scan.nextInt();
+                                                    ItemMeniu itemMeniu = Service.gasesteItemMeniu(item);
+                                                    ItemComanda itemComanda = new ItemComanda(itemMeniu, cantitate);
+                                                    comandaClient.adaugaItemComanda(itemComanda);
+                                                    break;
+                                                } else {
+                                                    System.out.println("Item-ul nu exista in meniu!");
+                                                }
+                                            } else {
+                                                Service.afiseazaTotalComanda(comandaClient);
+                                                existaItem = true;
+                                                comanda = false;
+                                            }
 
-                            } else {
-                                System.out.println("Restaurantul nu exista! Introduceti alt restaurant!");
+                                        }
+                                    }
+
+                                } else {
+                                    System.out.println("Restaurantul nu exista! Introduceti alt restaurant!");
+                                }
+                                exista = true;
+
                             }
-                            exista = true;
-
+                        } else if (optiune4 == 2) {
+                            Service.devinePremium(Service.gasesteClientDupaUsername(username));
+                        } else {
+                            break;
                         }
                     }
                 }
@@ -204,7 +218,8 @@ public class Main {
                             System.out.println("1. Creaza restaurant");
                             System.out.println("2. Adauga preparate la meniul unui restaurant existent:");
                             System.out.println("3. Afiseaza restaurantele mele");
-                            System.out.println("4. Logout");
+                            System.out.println("4. Afiseaza datele contului");
+                            System.out.println("5. Logout");
                             int optiune3 = scan.nextInt();
                             if (optiune3 == 1) {
                                 System.out.println("Introduceti numele restaurantului pe care doriti sa il creati:");
@@ -250,7 +265,10 @@ public class Main {
                                     }
                                 }
                             }
-                            if (optiune3 == 4) {
+                            if (optiune3 == 4){
+                                Service.afiseazaDateManager(Service.gasesteManager(username));
+                            }
+                            if (optiune3 == 5) {
                                 page2 = false;
                             }
 

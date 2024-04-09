@@ -53,6 +53,27 @@ public class Service {
         meniuri.put(restaurant2, meniu2);
     }
 
+
+    public static void devinePremium(Client client) {
+        if (client != null) {
+            client.setPremium(true);
+            System.out.println("Felicitări! Clientul " + client.getNume() + " a devenit premium.");
+        } else {
+            System.out.println("Clientul nu există.");
+        }
+    }
+
+    public static void afiseazaDateManager(Manager manager) {
+        if (manager != null) {
+            System.out.println("Nume: " + manager.getNume());
+            System.out.println("Email: " + manager.getEmail());
+            System.out.println("Username: " + manager.getUsername());
+            System.out.println("Parola: " + manager.getParola());
+        } else {
+            System.out.println("Managerul nu există.");
+        }
+    }
+
     public static void sortRestaurante() {
         Collections.sort(restaurante, new Comparator<Restaurant>() {
             @Override
