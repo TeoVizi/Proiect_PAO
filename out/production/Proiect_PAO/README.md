@@ -19,6 +19,6 @@
 6. Afisare date manager
 7. Introducere preparate in meniu
 8. Clientul poate plasa ocomanda la care se calculeaza la final totalul in functie de atributele lui
-9. Logout Client
+9. Posibilitatea clientului de a deveni premium
 10. Soferul poate deveni disponibil
 

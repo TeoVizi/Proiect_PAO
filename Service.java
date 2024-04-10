@@ -78,7 +78,7 @@ public class Service {
         Collections.sort(restaurante, new Comparator<Restaurant>() {
             @Override
             public int compare(Restaurant r1, Restaurant r2) {
-                return r1.getNume().compareToIgnoreCase(r2.getNume());
+                return r1.getNume().compareTo(r2.getNume());
             }
         });
     }
