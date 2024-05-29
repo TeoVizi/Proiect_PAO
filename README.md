@@ -8,7 +8,7 @@
 7. model.ItemMeniu
 8. model.Meniu
 9. model.Restaurant
-10. service.Service
+10. service.LoginRegisterService
 
 ### Interogări/Actiuni:
 1. Login

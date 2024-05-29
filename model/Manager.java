@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 
 public class Manager extends Utilizator{
+    private int id;
+
     private ArrayList<Restaurant> restaurante;
 
     public Manager(String nume, String email,String username, String parola) {
@@ -13,6 +15,14 @@ public class Manager extends Utilizator{
     public Manager() {
         super();
         this.restaurante = new ArrayList<Restaurant>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public ArrayList<Restaurant> getRestaurante() {

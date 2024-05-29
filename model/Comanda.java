@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Comanda {
+    private int id;
     private Client client;
     private Restaurant restaurant;
-
     private List<ItemComanda> listaItemiComandati;
     private String status;
     private double totalPlata;
@@ -37,9 +37,9 @@ public class Comanda {
                 .mapToDouble(item -> item.getItemMeniu().getPret() * item.getCantitate())
                 .sum();
         if (client != null && client.getIsPremium()) {
-            this.totalPlata = totalItems; //clienții premium nu platesc costul de livrare
+            this.totalPlata = totalItems; // Clienții premium nu platesc costul de livrare
         } else {
-            this.totalPlata = totalItems + (restaurant != null ? restaurant.getCostLivrare() : 0); // include costul de livrare daca restaurantul este setat
+            this.totalPlata = totalItems + (restaurant != null ? restaurant.getCostLivrare() : 0); // Include costul de livrare daca restaurantul este setat
         }
     }
 
@@ -67,4 +67,19 @@ public class Comanda {
         return totalPlata;
     }
 
+    public void setTotalPlata(double totalPlata) {
+        this.totalPlata = totalPlata;
+    }
+
+    public void setListaItemiComandati(List<ItemComanda> listaItemiComandati) {
+        this.listaItemiComandati = listaItemiComandati;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

@@ -1,32 +1,44 @@
 package service;
 
 import model.Restaurant;
+import repository.RestaurantRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+public class RestaurantService extends BaseService<Restaurant> {
+    private RestaurantRepository restaurantRepository;
 
-public class RestaurantService {
-    private static List<Restaurant> restaurants = new ArrayList<>();
-
-    public static void adaugaRestaurant(Restaurant restaurant) {
-        restaurants.add(restaurant);
+    private RestaurantService() {
+        this.restaurantRepository = new RestaurantRepository();
     }
 
-    public static boolean unicitateRestaurant(String numeRestaurant) {
-        for (Restaurant restaurant : restaurants) {
-            if (restaurant.getNume().equalsIgnoreCase(numeRestaurant)) {
-                return false;
-            }
-        }
-        return true;
+    @Override
+    public void create(Restaurant restaurant) {
+        restaurantRepository.addRestaurant(restaurant);
     }
 
-    public static Restaurant gasesteRestaurant(String numeRestaurant) {
-        for (Restaurant restaurant : restaurants) {
-            if (restaurant.getNume().equalsIgnoreCase(numeRestaurant)) {
-                return restaurant;
-            }
+    @Override
+    public Restaurant read(int id) {
+        return restaurantRepository.getRestaurantById(id);
+    }
+
+    @Override
+    public void update(Restaurant restaurant) {
+        restaurantRepository.updateRestaurant(restaurant);
+    }
+
+    @Override
+    public void delete(int id) {
+        restaurantRepository.deleteRestaurant(id);
+    }
+
+    public void createTable() {
+        restaurantRepository.createTable();
+    }
+
+    public void initialize() {
+        createTable();
+        for (int i = 1; i <= 5; i++) {
+            Restaurant restaurant = new Restaurant("Restaurant" + i, "Address" + i, i * 5.0);
+            create(restaurant);
         }
-        return null;
     }
 }

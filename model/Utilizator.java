@@ -1,6 +1,8 @@
 package model;
 
 public class Utilizator {
+    private int id;
+
     protected String nume;
     protected String email;
     private String username;
@@ -18,6 +20,14 @@ public class Utilizator {
         this.email = null;
         this.username = null;
         this.parola = null;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNume() {

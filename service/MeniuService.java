@@ -1,36 +1,41 @@
 package service;
 
-import model.ItemMeniu;
 import model.Meniu;
-import model.Restaurant;
+import repository.MeniuRepository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+public class MeniuService extends BaseService<Meniu> {
+    private MeniuRepository meniuRepository;
 
-public class MeniuService {
-    private static Map<Restaurant, Meniu> meniuri = new HashMap<>();
-
-    public static void adaugaItemMeniuRestaurant(Restaurant restaurant, ItemMeniu item) {
-        Meniu meniu = meniuri.get(restaurant);
-        if (meniu == null) {
-            meniu = new Meniu();
-            meniuri.put(restaurant, meniu);
-        }
-        meniu.adaugaItemMeniu(item);
-        System.out.println("Preparatul '" + item.getNume() + "' a fost adaugat cu succes la meniul restaurantului '" + restaurant.getNume() + "'.");
+    private MeniuService() {
+        this.meniuRepository = new MeniuRepository();
     }
 
-    public static boolean existaItemMeniuRestaurant(Restaurant restaurant, String numeItem) {
-        Meniu meniu = meniuri.get(restaurant);
-        if (meniu != null) {
-            List<ItemMeniu> itemeMeniu = meniu.getListaItemiMeniu();
-            for (ItemMeniu item : itemeMeniu) {
-                if (item.getNume().equalsIgnoreCase(numeItem)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    @Override
+    public void create(Meniu meniu) {
+        meniuRepository.addMeniu(meniu, meniu.getRestaurantId());
+    }
+
+    @Override
+    public Meniu read(int id) {
+        return meniuRepository.getMeniuById(id);
+    }
+
+    @Override
+    public void update(Meniu meniu) {
+        meniuRepository.updateMeniu(meniu);
+    }
+
+    @Override
+    public void delete(int id) {
+        meniuRepository.deleteMeniu(id);
+    }
+
+    public void createTable() {
+        meniuRepository.createTable();
+    }
+
+    public void initialize() {
+        createTable();
+        // Add sample meniu initialization logic
     }
 }

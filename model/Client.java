@@ -1,6 +1,7 @@
 package model;
 
 public class Client extends Utilizator {
+    private int id;
     private String strada;
     private String numar;
     private String oras;
@@ -20,6 +21,14 @@ public class Client extends Utilizator {
         this.numar = null;
         this.oras = null;
         this.isPremium = false;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStrada() {

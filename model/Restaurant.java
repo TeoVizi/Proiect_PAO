@@ -1,6 +1,8 @@
 package model;
 
 public class Restaurant {
+    private int id;
+
     private String nume;
     private String adresa;
     private Meniu meniu;
@@ -18,6 +20,14 @@ public class Restaurant {
         this.adresa = null;
         this.meniu = new Meniu();
         this.costLivrare = 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void adaugaMeniu(Meniu meniu) {
