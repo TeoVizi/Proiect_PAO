@@ -1,3 +1,5 @@
+package model;
+
 public class ItemMeniu {
     private String nume;
     private String descriere;

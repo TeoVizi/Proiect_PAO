@@ -1,3 +1,5 @@
+package model;
+
 public class ItemComanda {
     private ItemMeniu itemMeniu;
     private int cantitate;

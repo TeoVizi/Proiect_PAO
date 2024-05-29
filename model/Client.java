@@ -1,3 +1,5 @@
+package model;
+
 public class Client extends Utilizator {
     private String strada;
     private String numar;

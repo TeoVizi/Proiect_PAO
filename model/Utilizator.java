@@ -1,3 +1,5 @@
+package model;
+
 public class Utilizator {
     protected String nume;
     protected String email;

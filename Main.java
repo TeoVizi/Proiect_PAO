@@ -1,3 +1,6 @@
+import model.*;
+import service.Service;
+
 import java.util.Scanner;
 
 public class Main {
@@ -18,9 +21,9 @@ public class Main {
 
             if (optiune1 == 1) {
                 System.out.println("Alegeti tipul de cont pe care il doriti sau intoarceti-va la pagina anterioara:");
-                System.out.println("1. Client");
-                System.out.println("2. Sofer");
-                System.out.println("3. Manager");
+                System.out.println("1. model.Client");
+                System.out.println("2. model.Sofer");
+                System.out.println("3. model.Manager");
                 System.out.println("4. Inapoi la pagina principala");
 
                 int optiune2 = scan.nextInt();
@@ -39,7 +42,7 @@ public class Main {
                         if (Service.unicitateUsername(username)) {
                             unic = true;
                         } else {
-                            System.out.println("Utilizator deja existent! Introdu alt username!");
+                            System.out.println("model.Utilizator deja existent! Introdu alt username!");
                         }
                     }
                     System.out.println("Parola:");
@@ -70,7 +73,7 @@ public class Main {
                         if (Service.unicitateUsername(username)) {
                             unic = true;
                         } else {
-                            System.out.println("Utilizator deja existent! Introdu alt username!");
+                            System.out.println("model.Utilizator deja existent! Introdu alt username!");
                         }
                     }
 
@@ -96,7 +99,7 @@ public class Main {
                         if (Service.unicitateUsername(username)) {
                             unic = true;
                         } else {
-                            System.out.println("Utilizator deja existent! Introdu alt username!");
+                            System.out.println("model.Utilizator deja existent! Introdu alt username!");
                         }
                     }
                     System.out.println("Parola:");

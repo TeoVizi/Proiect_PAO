@@ -1,3 +1,5 @@
+package model;
+
 public class Sofer extends Utilizator {
     private String locatie;
     private boolean disponibilitate;
