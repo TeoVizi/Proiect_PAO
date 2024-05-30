@@ -8,14 +8,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RestaurantRepository {
 
     public void createTable() {
         String createTableSql = "CREATE TABLE IF NOT EXISTS restaurants" +
                 "(id INT PRIMARY KEY AUTO_INCREMENT, " +
-                "nume VARCHAR(50), " +
-                "adresa VARCHAR(100), " +
+                "nume VARCHAR(100), " +
+                "adresa VARCHAR(255), " +
                 "cost_livrare DOUBLE)";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
@@ -100,5 +102,25 @@ public class RestaurantRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public List<Restaurant> getAllRestaurants() {
+        String selectSql = "SELECT * FROM restaurants";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        List<Restaurant> restaurants = new ArrayList<>();
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery(selectSql);
+            while (resultSet.next()) {
+                Restaurant restaurant = new Restaurant();
+                restaurant.setId(resultSet.getInt("id"));
+                restaurant.setNume(resultSet.getString("nume"));
+                restaurant.setAdresa(resultSet.getString("adresa"));
+                restaurant.setCostLivrare(resultSet.getDouble("cost_livrare"));
+                restaurants.add(restaurant);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return restaurants;
     }
 }

@@ -5,10 +5,18 @@ import model.ItemComanda;
 import model.ItemMeniu;
 import repository.ComandaRepository;
 
-public class ComandaService extends BaseService<Comanda> {
+public class ComandaService implements CRUDService<Comanda> {
     private ComandaRepository comandaRepository;
+    private static ComandaService instance;
 
-    private ComandaService() {
+    public static ComandaService getInstance() {
+        if (instance == null) {
+            instance = new ComandaService();
+        }
+        return instance;
+    }
+
+    ComandaService() {
         this.comandaRepository = new ComandaRepository();
     }
 
@@ -36,16 +44,5 @@ public class ComandaService extends BaseService<Comanda> {
         comandaRepository.createTable();
     }
 
-    public void initialize() {
-        createTable();
-        for (int i = 1; i <= 5; i++) {
-            Comanda comanda = new Comanda();
-            for (int j = 1; j <= 5; j++) {
-                ItemMeniu itemMeniu = ItemMeniuService.getInstance(ItemMeniuService.class).read(j);
-                ItemComanda itemComanda = new ItemComanda(itemMeniu, j);
-                comanda.adaugaItemComanda(itemComanda);
-            }
-            create(comanda);
-        }
-    }
+
 }

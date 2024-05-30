@@ -14,9 +14,11 @@ public class ItemMeniuRepository {
     public void createTable() {
         String createTableSql = "CREATE TABLE IF NOT EXISTS item_meniu" +
                 "(id INT PRIMARY KEY AUTO_INCREMENT, " +
-                "nume VARCHAR(50), " +
-                "descriere VARCHAR(200), " +
-                "pret DOUBLE)";
+                "meniuId INT, " +
+                "nume VARCHAR(100), " +
+                "descriere VARCHAR(255), " +
+                "pret DOUBLE, " +
+                "FOREIGN KEY (meniuId) REFERENCES meniu(id))";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 

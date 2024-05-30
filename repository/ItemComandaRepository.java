@@ -16,11 +16,11 @@ public class ItemComandaRepository {
     public void createTable() {
         String createTableSql = "CREATE TABLE IF NOT EXISTS item_comanda" +
                 "(id INT PRIMARY KEY AUTO_INCREMENT, " +
-                "item_meniu_id INT, " +
+                "comandaId INT, " +
+                "itemMeniuId INT, " +
                 "cantitate INT, " +
-                "comanda_id INT, " +
-                "FOREIGN KEY (item_meniu_id) REFERENCES item_meniu(id), " +
-                "FOREIGN KEY (comanda_id) REFERENCES comenzi(id))";
+                "FOREIGN KEY (comandaId) REFERENCES comenzi(id), " +
+                "FOREIGN KEY (itemMeniuId) REFERENCES item_meniu(id))";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 

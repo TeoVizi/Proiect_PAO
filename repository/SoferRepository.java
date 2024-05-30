@@ -81,6 +81,23 @@ public class SoferRepository {
         return null;
     }
 
+    public int getIdByUsername(String username) {
+        String selectSql = "SELECT id FROM soferi WHERE username = ?";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, username);
+            ResultSet resultSet = pstmt.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
     public void updateSofer(Sofer sofer) {
         String updateSql = "UPDATE soferi SET nume = ?, email = ?, username = ?, parola = ?, locatie = ?, disponibilitate = ? WHERE id = ?";
 
@@ -93,7 +110,7 @@ public class SoferRepository {
             pstmt.setString(4, sofer.getParola());
             pstmt.setString(5, sofer.getLocatie());
             pstmt.setBoolean(6, sofer.getDisponibilitate());
-            pstmt.setInt(7, sofer.getId());
+            pstmt.setInt(7, this.getIdByUsername(sofer.getUsername()));
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -137,6 +154,19 @@ public class SoferRepository {
         return null;
     }
 
+    public boolean usernameExists(String username) {
+        String selectSql = "SELECT * FROM soferi WHERE username = ?";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, username);
+            ResultSet resultSet = pstmt.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public boolean emailExists(String email) {
         String query = "SELECT * FROM soferi WHERE email = ?";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();

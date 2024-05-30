@@ -3,13 +3,19 @@ package service;
 import model.ItemComanda;
 import repository.ItemComandaRepository;
 
-public class ItemComandaService extends BaseService<ItemComanda> {
+public class ItemComandaService implements CRUDService<ItemComanda> {
     private ItemComandaRepository itemComandaRepository;
-
-    private ItemComandaService() {
+    private static ItemComandaService instance;
+    ItemComandaService() {
         this.itemComandaRepository = new ItemComandaRepository();
     }
 
+    public static ItemComandaService getInstance() {
+        if (instance == null) {
+            instance = new ItemComandaService();
+        }
+        return instance;
+    }
     @Override
     public void create(ItemComanda itemComanda) {
         // Use appropriate comandaId
@@ -36,8 +42,5 @@ public class ItemComandaService extends BaseService<ItemComanda> {
         itemComandaRepository.createTable();
     }
 
-    public void initialize() {
-        createTable();
-        // Add sample itemComanda initialization logic
-    }
+
 }

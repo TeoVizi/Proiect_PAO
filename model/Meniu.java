@@ -35,4 +35,8 @@ public class Meniu {
     public List<ItemMeniu> getListaItemiMeniu() {
         return listaItemiMeniu;
     }
+
+    public void setListaItemiMeniu(List<ItemMeniu> listaItemiMeniu) {
+        this.listaItemiMeniu = listaItemiMeniu;
+    }
 }

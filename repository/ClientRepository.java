@@ -14,13 +14,13 @@ public class ClientRepository {
     public void createTable() {
         String createTableSql = "CREATE TABLE IF NOT EXISTS clients" +
                 "(id INT PRIMARY KEY AUTO_INCREMENT, " +
-                "nume VARCHAR(50), " +
-                "email VARCHAR(50), " +
-                "username VARCHAR(50), " +
-                "parola VARCHAR(50), " +
-                "strada VARCHAR(50), " +
-                "numar VARCHAR(10), " +
-                "oras VARCHAR(50), " +
+                "nume VARCHAR(100), " +
+                "email VARCHAR(100), " +
+                "username VARCHAR(100), " +
+                "parola VARCHAR(100), " +
+                "strada VARCHAR(255), " +
+                "numar INT(4), " +
+                "oras VARCHAR(255), " +
                 "isPremium BOOLEAN)";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
@@ -31,6 +31,36 @@ public class ClientRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public boolean usernameExists(String username) {
+        String selectSql = "SELECT * FROM clients WHERE username = ?";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, username);
+            ResultSet resultSet = pstmt.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public int getIdByUsername(String username) {
+        String selectSql = "SELECT id FROM clients WHERE username = ?";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, username);
+            ResultSet resultSet = pstmt.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     public void addClient(Client client) {
@@ -101,7 +131,7 @@ public class ClientRepository {
             pstmt.setString(6, client.getNumar());
             pstmt.setString(7, client.getOras());
             pstmt.setBoolean(8, client.getIsPremium());
-            pstmt.setInt(9, client.getId());
+            pstmt.setInt(9, this.getIdByUsername(client.getUsername()));
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -122,13 +152,13 @@ public class ClientRepository {
         }
     }
 
-    public Client getClientByUsernameAndPassword(String username, String password) {
+    public Client getClientByUsernameAndPassword(String username, String parola) {
         String query = "SELECT * FROM clients WHERE username = ? AND parola = ?";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
+            pstmt.setString(2, parola);
             ResultSet resultSet = pstmt.executeQuery();
             if (resultSet.next()) {
                 return new Client(

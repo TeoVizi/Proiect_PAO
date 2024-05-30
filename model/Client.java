@@ -23,6 +23,15 @@ public class Client extends Utilizator {
         this.isPremium = false;
     }
 
+    public Client(String nume, String email, String username, String parola, int id, String strada, String numar, String oras, boolean isPremium) {
+        super(nume, email, username, parola);
+        this.id = id;
+        this.strada = strada;
+        this.numar = numar;
+        this.oras = oras;
+        this.isPremium = isPremium;
+    }
+
     public int getId() {
         return id;
     }

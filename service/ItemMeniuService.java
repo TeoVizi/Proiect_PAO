@@ -3,11 +3,19 @@ package service;
 import model.ItemMeniu;
 import repository.ItemMeniuRepository;
 
-public class ItemMeniuService extends BaseService<ItemMeniu> {
+public class ItemMeniuService implements CRUDService<ItemMeniu> {
     private ItemMeniuRepository itemMeniuRepository;
+    private static ItemMeniuService instance;
 
-    private ItemMeniuService() {
+    ItemMeniuService() {
         this.itemMeniuRepository = new ItemMeniuRepository();
+    }
+
+    public static ItemMeniuService getInstance() {
+        if (instance == null) {
+            instance = new ItemMeniuService();
+        }
+        return instance;
     }
 
     @Override
@@ -34,11 +42,5 @@ public class ItemMeniuService extends BaseService<ItemMeniu> {
         itemMeniuRepository.createTable();
     }
 
-    public void initialize() {
-        createTable();
-        for (int i = 1; i <= 5; i++) {
-            ItemMeniu itemMeniu = new ItemMeniu("Item" + i, "Description" + i, i * 10.0);
-            create(itemMeniu);
-        }
-    }
+
 }

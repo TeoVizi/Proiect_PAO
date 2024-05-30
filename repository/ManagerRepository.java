@@ -2,22 +2,25 @@ package repository;
 
 import config.DatabaseConfiguration;
 import model.Manager;
+import model.Restaurant;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ManagerRepository {
 
     public void createTable() {
         String createTableSql = "CREATE TABLE IF NOT EXISTS managers" +
                 "(id INT PRIMARY KEY AUTO_INCREMENT, " +
-                "nume VARCHAR(50), " +
-                "email VARCHAR(50), " +
-                "username VARCHAR(50), " +
-                "parola VARCHAR(50))";
+                "nume VARCHAR(100), " +
+                "email VARCHAR(100), " +
+                "username VARCHAR(100), " +
+                "parola VARCHAR(100))";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
@@ -27,6 +30,22 @@ public class ManagerRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getIdByUsername(String username) {
+        String selectSql = "SELECT id FROM managers WHERE username = ?";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, username);
+            ResultSet resultSet = pstmt.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     public void addManager(Manager manager) {
@@ -75,6 +94,19 @@ public class ManagerRepository {
         return null;
     }
 
+    public boolean usernameExists(String username) {
+        String selectSql = "SELECT * FROM managers WHERE username = ?";
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setString(1, username);
+            ResultSet resultSet = pstmt.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public void updateManager(Manager manager) {
         String updateSql = "UPDATE managers SET nume = ?, email = ?, username = ?, parola = ? WHERE id = ?";
 
@@ -85,7 +117,7 @@ public class ManagerRepository {
             pstmt.setString(2, manager.getEmail());
             pstmt.setString(3, manager.getUsername());
             pstmt.setString(4, manager.getParola());
-            pstmt.setInt(5, manager.getId());
+            pstmt.setInt(5, this.getIdByUsername(manager.getUsername()));
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -106,13 +138,13 @@ public class ManagerRepository {
         }
     }
 
-    public Manager getManagerByUsernameAndPassword(String username, String password) {
+    public Manager getManagerByUsernameAndPassword(String username, String parola) {
         String query = "SELECT * FROM managers WHERE username = ? AND parola = ?";
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
+            pstmt.setString(2, parola);
             ResultSet resultSet = pstmt.executeQuery();
             if (resultSet.next()) {
                 return new Manager(
@@ -126,6 +158,47 @@ public class ManagerRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void assignRestaurantToManager(int managerId, int restaurantId) {
+        String assignSql = "INSERT INTO manager_restaurant(manager_id, restaurant_id) VALUES(?, ?)";
+
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(assignSql);
+            pstmt.setInt(1, managerId);
+            pstmt.setInt(2, restaurantId);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Restaurant> getRestaurantsByManager(int managerId) {
+        List<Restaurant> restaurants = new ArrayList<>();
+        String selectSql = "SELECT r.* FROM restaurants r " +
+                "INNER JOIN manager_restaurant mr ON r.id = mr.restaurant_id " +
+                "WHERE mr.manager_id = ?";
+
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
+            pstmt.setInt(1, managerId);
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                Restaurant restaurant = new Restaurant(
+                        resultSet.getString("nume"),
+                        resultSet.getString("adresa"),
+                        resultSet.getDouble("cost_livrare")
+                );
+                restaurants.add(restaurant);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return restaurants;
     }
 
     public boolean emailExists(String email) {

@@ -3,11 +3,21 @@ package service;
 import model.Restaurant;
 import repository.RestaurantRepository;
 
-public class RestaurantService extends BaseService<Restaurant> {
-    private RestaurantRepository restaurantRepository;
+import java.util.List;
 
-    private RestaurantService() {
+public class RestaurantService implements CRUDService<Restaurant> {
+    private RestaurantRepository restaurantRepository;
+    private static RestaurantService instance;
+
+    RestaurantService() {
         this.restaurantRepository = new RestaurantRepository();
+    }
+
+    public static RestaurantService getInstance() {
+        if (instance == null) {
+            instance = new RestaurantService();
+        }
+        return instance;
     }
 
     @Override
@@ -34,11 +44,7 @@ public class RestaurantService extends BaseService<Restaurant> {
         restaurantRepository.createTable();
     }
 
-    public void initialize() {
-        createTable();
-        for (int i = 1; i <= 5; i++) {
-            Restaurant restaurant = new Restaurant("Restaurant" + i, "Address" + i, i * 5.0);
-            create(restaurant);
-        }
+    public List<Restaurant> getAll() {
+        return restaurantRepository.getAllRestaurants();
     }
 }
