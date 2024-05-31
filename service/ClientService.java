@@ -3,6 +3,7 @@ package service;
 import model.*;
 import repository.ClientRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,9 +12,9 @@ public class ClientService implements CRUDService<Client> {
     private List<ItemComanda> currentCart;
     private static ClientService instance;
 
-
     private ClientService() {
         this.clientRepository = new ClientRepository();
+        this.currentCart = new ArrayList<>();
     }
 
     public static ClientService getInstance() {
@@ -24,8 +25,9 @@ public class ClientService implements CRUDService<Client> {
     }
 
     @Override
-    public void create(Client client) {
-        clientRepository.addClient(client);
+    public int create(Client client) {
+        int id = clientRepository.addClient(client);
+        return id;
     }
 
     @Override
@@ -58,6 +60,7 @@ public class ClientService implements CRUDService<Client> {
     public boolean usernameExists(String username) {
         return clientRepository.usernameExists(username);
     }
+
     public void viewAccountInformation(Client client) {
         System.out.println("Account Information:");
         System.out.println("Name: " + client.getNume());
@@ -108,7 +111,7 @@ public class ClientService implements CRUDService<Client> {
         currentCart.clear();
     }
 
-    public static void changePassword(Client client,Scanner scanner) {
+    public static void changePassword(Client client, Scanner scanner) {
         ClientService clientService = ClientService.getInstance();
 
         System.out.print("Introduceți noua parolă: ");
@@ -126,17 +129,15 @@ public class ClientService implements CRUDService<Client> {
 
         Meniu meniu = MeniuService.getInstance().getMeniuByRestaurantId(restaurantId);
 
-        if (meniu == null) {
-            System.out.println("Nu există meniu pentru restaurantul cu ID-ul specificat.");
-            return;
-        }
-
-        System.out.println("Meniu restaurant:");
-        for (ItemMeniu item : meniu.getListaItemiMeniu()) {
-            System.out.println(item);
+        if (meniu != null && !meniu.getListaItemiMeniu().isEmpty()) {
+            System.out.println("Meniu restaurant:");
+            for (ItemMeniu item : meniu.getListaItemiMeniu()) {
+                System.out.println(item.getId()+": "+item.getNume() + ": " + item.getDescriere() + " - " + item.getPret());
+            }
+        } else {
+            System.out.println("Nu există meniu pentru acest restaurant.");
         }
     }
-
 
     public static void viewRestaurants() {
         RestaurantService restaurantService = RestaurantService.getInstance();
@@ -156,7 +157,6 @@ public class ClientService implements CRUDService<Client> {
         }
     }
 
-
     private static void viewCurrentCart() {
         ClientService clientService = ClientService.getInstance();
 
@@ -164,7 +164,7 @@ public class ClientService implements CRUDService<Client> {
 
         System.out.println("Produse în coș:");
         for (ItemComanda item : cart) {
-            System.out.println(item);
+            System.out.println(item.getItemMeniu().getNume() + ": " + item.getCantitate());
         }
     }
 
@@ -177,9 +177,12 @@ public class ClientService implements CRUDService<Client> {
         Restaurant restaurant = RestaurantService.getInstance().read(restaurantId);
 
         if (restaurant != null) {
-            Comanda comanda = new Comanda(client, restaurant);
-            List<ItemComanda> cart = clientService.getCurrentCart();
-            for (ItemComanda item : cart) {
+            double totalPlata = clientService.getCurrentCart().stream()
+                    .mapToDouble(item -> item.getItemMeniu().getPret() * item.getCantitate())
+                    .sum();
+
+            Comanda comanda = new Comanda(client, restaurant, "Pending", totalPlata);
+            for (ItemComanda item : clientService.getCurrentCart()) {
                 comanda.adaugaItemComanda(item);
             }
 
@@ -187,13 +190,13 @@ public class ClientService implements CRUDService<Client> {
             comandaService.create(comanda);
 
             clientService.clearCart();
-            System.out.println("Comandă plasată cu succes!");
+            System.out.println("Comandă plasată cu succes!" + " Total plata: " + totalPlata);
         } else {
             System.out.println("Restaurant invalid.");
         }
     }
 
-     public void handleClientActions(Client client, Scanner scanner) {
+    public void handleClientActions(Client client, Scanner scanner) {
         ClientService clientService = ClientService.getInstance();
 
         while (true) {
@@ -211,7 +214,7 @@ public class ClientService implements CRUDService<Client> {
 
             switch (choice) {
                 case 1:
-                    clientService.viewAccountInformation(client);
+                    clientService. viewAccountInformation(client);
                     break;
                 case 2:
                     viewRestaurants();
@@ -233,6 +236,7 @@ public class ClientService implements CRUDService<Client> {
                     break;
                 case 8:
                     deleteAccount(client, scanner);
+                    return;
                 case 9:
                     return;
                 default:

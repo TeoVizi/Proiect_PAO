@@ -3,6 +3,7 @@ package repository;
 import config.DatabaseConfiguration;
 import model.Manager;
 import model.Restaurant;
+import service.AuditService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,14 +16,15 @@ import java.util.List;
 public class ManagerRepository {
 
     public void createTable() {
-        String createTableSql = "CREATE TABLE IF NOT EXISTS managers" +
-                "(id INT PRIMARY KEY AUTO_INCREMENT, " +
-                "nume VARCHAR(100), " +
-                "email VARCHAR(100), " +
-                "username VARCHAR(100), " +
-                "parola VARCHAR(100))";
+        String createTableSql = "CREATE TABLE IF NOT EXISTS manager_restaurants (" +
+                "manager_id INT, " +
+                "restaurant_id INT, " +
+                "PRIMARY KEY (manager_id, restaurant_id), " +
+                "FOREIGN KEY (manager_id) REFERENCES managers(id) ON DELETE CASCADE, " +
+                "FOREIGN KEY (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE)";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        AuditService.getInstance().logAction("create Table Managers");
 
         try {
             Statement stmt = connection.createStatement();
@@ -34,6 +36,8 @@ public class ManagerRepository {
 
     public int getIdByUsername(String username) {
         String selectSql = "SELECT id FROM managers WHERE username = ?";
+        AuditService.getInstance().logAction("read Managers");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
@@ -48,8 +52,10 @@ public class ManagerRepository {
         return -1;
     }
 
-    public void addManager(Manager manager) {
-        String insertManagerSql = "INSERT INTO managers(nume, email, username, parola) VALUES(?, ?, ?, ?)";
+
+    public int addManager(Manager manager) {
+        String insertManagerSql = "INSERT INTO managers (nume, email, username, parola) VALUES (?, ?, ?, ?)";
+        AuditService.getInstance().logAction("create Managers");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
@@ -66,14 +72,18 @@ public class ManagerRepository {
             if (generatedKeys.next()) {
                 int managerId = generatedKeys.getInt(1);
                 manager.setId(managerId);
+                return managerId;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1; // Return -1 if there was an error
     }
 
     public Manager getManagerById(int id) {
         String selectSql = "SELECT * FROM managers WHERE id = ?";
+        AuditService.getInstance().logAction("read Managers");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
@@ -96,6 +106,8 @@ public class ManagerRepository {
 
     public boolean usernameExists(String username) {
         String selectSql = "SELECT * FROM managers WHERE username = ?";
+        AuditService.getInstance().logAction("read Managers");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
@@ -109,6 +121,7 @@ public class ManagerRepository {
     }
     public void updateManager(Manager manager) {
         String updateSql = "UPDATE managers SET nume = ?, email = ?, username = ?, parola = ? WHERE id = ?";
+        AuditService.getInstance().logAction("update Managers");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
@@ -127,6 +140,7 @@ public class ManagerRepository {
 
     public void deleteManager(int id) {
         String deleteSql = "DELETE FROM managers WHERE id = ?";
+        AuditService.getInstance().logAction("delete Managers");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
@@ -138,49 +152,42 @@ public class ManagerRepository {
         }
     }
 
-    public Manager getManagerByUsernameAndPassword(String username, String parola) {
-        String query = "SELECT * FROM managers WHERE username = ? AND parola = ?";
+    public Manager getManagerByUsernameAndPassword(String username, String password) {
+        String selectSql = "SELECT * FROM managers WHERE username = ? AND parola = ?";
+        AuditService.getInstance().logAction("read Managers");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
         try {
-            PreparedStatement pstmt = connection.prepareStatement(query);
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, username);
-            pstmt.setString(2, parola);
+            pstmt.setString(2, password);
+
             ResultSet resultSet = pstmt.executeQuery();
+
             if (resultSet.next()) {
-                return new Manager(
-                        resultSet.getString("nume"),
-                        resultSet.getString("email"),
-                        resultSet.getString("username"),
-                        resultSet.getString("parola")
-                );
+                Manager manager = new Manager();
+                manager.setId(resultSet.getInt("id"));
+                manager.setNume(resultSet.getString("nume"));
+                manager.setEmail(resultSet.getString("email"));
+                manager.setUsername(resultSet.getString("username"));
+                manager.setParola(resultSet.getString("parola"));
+                return manager;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public void assignRestaurantToManager(int managerId, int restaurantId) {
-        String assignSql = "INSERT INTO manager_restaurant(manager_id, restaurant_id) VALUES(?, ?)";
-
-        Connection connection = DatabaseConfiguration.getDatabaseConnection();
-
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(assignSql);
-            pstmt.setInt(1, managerId);
-            pstmt.setInt(2, restaurantId);
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public List<Restaurant> getRestaurantsByManager(int managerId) {
         List<Restaurant> restaurants = new ArrayList<>();
         String selectSql = "SELECT r.* FROM restaurants r " +
                 "INNER JOIN manager_restaurant mr ON r.id = mr.restaurant_id " +
                 "WHERE mr.manager_id = ?";
+        AuditService.getInstance().logAction("read Managers");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
@@ -203,6 +210,8 @@ public class ManagerRepository {
 
     public boolean emailExists(String email) {
         String query = "SELECT * FROM managers WHERE email = ?";
+        AuditService.getInstance().logAction("read Managers");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);

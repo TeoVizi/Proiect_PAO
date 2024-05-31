@@ -16,13 +16,13 @@ public class ComandaService implements CRUDService<Comanda> {
         return instance;
     }
 
-    ComandaService() {
+    private ComandaService() {
         this.comandaRepository = new ComandaRepository();
     }
 
     @Override
-    public void create(Comanda comanda) {
-        comandaRepository.addComanda(comanda);
+    public int create(Comanda comanda) {
+        return comandaRepository.addComanda(comanda);
     }
 
     @Override

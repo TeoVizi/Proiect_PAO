@@ -9,7 +9,7 @@ public class RestaurantService implements CRUDService<Restaurant> {
     private RestaurantRepository restaurantRepository;
     private static RestaurantService instance;
 
-    RestaurantService() {
+    private RestaurantService() {
         this.restaurantRepository = new RestaurantRepository();
     }
 
@@ -21,8 +21,8 @@ public class RestaurantService implements CRUDService<Restaurant> {
     }
 
     @Override
-    public void create(Restaurant restaurant) {
-        restaurantRepository.addRestaurant(restaurant);
+    public int create(Restaurant restaurant) {
+        return restaurantRepository.addRestaurant(restaurant);
     }
 
     @Override
@@ -38,6 +38,10 @@ public class RestaurantService implements CRUDService<Restaurant> {
     @Override
     public void delete(int id) {
         restaurantRepository.deleteRestaurant(id);
+    }
+
+    public int addRestaurant(Restaurant restaurant) {
+        return restaurantRepository.addRestaurant(restaurant);
     }
 
     public void createTable() {

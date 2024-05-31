@@ -10,7 +10,7 @@ public class SoferService implements CRUDService<Sofer> {
     private SoferRepository soferRepository;
     private static SoferService instance;
 
-    SoferService() {
+    private SoferService() {
         this.soferRepository = new SoferRepository();
     }
 
@@ -22,8 +22,8 @@ public class SoferService implements CRUDService<Sofer> {
     }
 
     @Override
-    public void create(Sofer sofer) {
-        soferRepository.addSofer(sofer);
+    public int create(Sofer sofer) {
+        return soferRepository.addSofer(sofer);
     }
 
     @Override
@@ -107,6 +107,7 @@ public class SoferService implements CRUDService<Sofer> {
                 System.out.println("Disponibilitate schimbata cu succes.");
             } else if (choice == 4) {
                 soferService.deleteAccount(sofer, scanner);
+                break;
             } else if (choice == 5) {
                 break;
             }

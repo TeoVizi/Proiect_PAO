@@ -28,8 +28,8 @@ public class MeniuService implements CRUDService<Meniu> {
     }
 
     @Override
-    public void create(Meniu meniu) {
-        meniuRepository.addMeniu(meniu, meniu.getRestaurantId());
+    public int create(Meniu meniu) {
+       return meniuRepository.addMeniu(meniu, meniu.getRestaurantId());
     }
 
     @Override

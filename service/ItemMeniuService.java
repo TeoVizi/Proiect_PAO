@@ -19,8 +19,8 @@ public class ItemMeniuService implements CRUDService<ItemMeniu> {
     }
 
     @Override
-    public void create(ItemMeniu itemMeniu) {
-        itemMeniuRepository.addItemMeniu(itemMeniu);
+    public int create(ItemMeniu itemMeniu) {
+        return itemMeniuRepository.addItemMeniu(itemMeniu);
     }
 
     @Override
@@ -41,6 +41,7 @@ public class ItemMeniuService implements CRUDService<ItemMeniu> {
     public void createTable() {
         itemMeniuRepository.createTable();
     }
+
 
 
 }

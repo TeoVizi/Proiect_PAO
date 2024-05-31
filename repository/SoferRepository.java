@@ -2,6 +2,7 @@ package repository;
 
 import config.DatabaseConfiguration;
 import model.Sofer;
+import service.AuditService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +23,7 @@ public class SoferRepository {
                 "disponibilitate BOOLEAN)";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        AuditService.getInstance().logAction("create Table Soferi");
 
         try {
             Statement stmt = connection.createStatement();
@@ -31,8 +33,9 @@ public class SoferRepository {
         }
     }
 
-    public void addSofer(Sofer sofer) {
+    public int addSofer(Sofer sofer) {
         String insertSoferSql = "INSERT INTO soferi(nume, email, username, parola, locatie, disponibilitate) VALUES(?, ?, ?, ?, ?, ?)";
+        AuditService.getInstance().logAction("create Soferi");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
@@ -49,16 +52,17 @@ public class SoferRepository {
 
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             if (generatedKeys.next()) {
-                int soferId = generatedKeys.getInt(1);
-                sofer.setId(soferId);
+                return generatedKeys.getInt(1); // Return the generated sofer ID
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1;
     }
-
     public Sofer getSoferById(int id) {
         String selectSql = "SELECT * FROM soferi WHERE id = ?";
+        AuditService.getInstance().logAction("read Soferi");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
@@ -83,6 +87,8 @@ public class SoferRepository {
 
     public int getIdByUsername(String username) {
         String selectSql = "SELECT id FROM soferi WHERE username = ?";
+        AuditService.getInstance().logAction("read Soferi");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
@@ -100,6 +106,7 @@ public class SoferRepository {
 
     public void updateSofer(Sofer sofer) {
         String updateSql = "UPDATE soferi SET nume = ?, email = ?, username = ?, parola = ?, locatie = ?, disponibilitate = ? WHERE id = ?";
+        AuditService.getInstance().logAction("update Soferi");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
@@ -120,6 +127,7 @@ public class SoferRepository {
 
     public void deleteSofer(int id) {
         String deleteSql = "DELETE FROM soferi WHERE id = ?";
+        AuditService.getInstance().logAction("delete Soferi");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
@@ -132,22 +140,30 @@ public class SoferRepository {
     }
 
     public Sofer getSoferByUsernameAndPassword(String username, String password) {
-        String query = "SELECT * FROM soferi WHERE username = ? AND parola = ?";
+        String selectSql = "SELECT * FROM soferi WHERE username = ? AND parola = ?";
+        AuditService.getInstance().logAction("read Soferi");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
         try {
-            PreparedStatement pstmt = connection.prepareStatement(query);
+            PreparedStatement pstmt = connection.prepareStatement(selectSql);
             pstmt.setString(1, username);
             pstmt.setString(2, password);
+
             ResultSet resultSet = pstmt.executeQuery();
+
             if (resultSet.next()) {
-                return new Sofer(
-                        resultSet.getString("nume"),
-                        resultSet.getString("email"),
-                        resultSet.getString("username"),
-                        resultSet.getString("parola"),
-                        resultSet.getString("locatie")
-                );
+                Sofer sofer = new Sofer();
+                sofer.setId(resultSet.getInt("id"));
+                sofer.setNume(resultSet.getString("nume"));
+                sofer.setEmail(resultSet.getString("email"));
+                sofer.setUsername(resultSet.getString("username"));
+                sofer.setParola(resultSet.getString("parola"));
+                sofer.setLocatie(resultSet.getString("locatie"));
+                sofer.setDisponibilitate(resultSet.getBoolean("disponibilitate"));
+                return sofer;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -156,6 +172,8 @@ public class SoferRepository {
 
     public boolean usernameExists(String username) {
         String selectSql = "SELECT * FROM soferi WHERE username = ?";
+        AuditService.getInstance().logAction("read Soferi");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
@@ -169,6 +187,7 @@ public class SoferRepository {
     }
     public boolean emailExists(String email) {
         String query = "SELECT * FROM soferi WHERE email = ?";
+        AuditService.getInstance().logAction("read Soferi");
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);

@@ -3,6 +3,7 @@ package repository;
 import config.DatabaseConfiguration;
 import model.ItemMeniu;
 import model.Meniu;
+import service.AuditService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,9 +19,10 @@ public class MeniuRepository {
         String createTableSql = "CREATE TABLE IF NOT EXISTS meniu" +
                 "(id INT PRIMARY KEY AUTO_INCREMENT, " +
                 "restaurantId INT, " +
-                "FOREIGN KEY (restaurantId) REFERENCES restaurants(id))";
+                "FOREIGN KEY (restaurantId) REFERENCES restaurants(id) ON DELETE CASCADE)";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        AuditService.getInstance().logAction("create Table Meniu");
 
         try {
             Statement stmt = connection.createStatement();
@@ -30,8 +32,9 @@ public class MeniuRepository {
         }
     }
 
-    public void addMeniu(Meniu meniu, int restaurantId) {
+    public int addMeniu(Meniu meniu, int restaurantId) {
         String insertMeniuSql = "INSERT INTO meniu(restaurantId) VALUES(?)";
+        AuditService.getInstance().logAction("create Meniu");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
@@ -45,32 +48,46 @@ public class MeniuRepository {
             if (generatedKeys.next()) {
                 int meniuId = generatedKeys.getInt(1);
                 meniu.setId(meniuId);
+
+                for (ItemMeniu item : meniu.getListaItemiMeniu()) {
+                    addItemMeniu(item, meniuId);
+                }
+
+                return meniuId;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public void addItemMeniu(ItemMeniu itemMeniu, int meniuId) {
+        String insertItemMeniuSql = "INSERT INTO item_meniu(meniuId, nume, descriere, pret) VALUES(?, ?, ?, ?)";
+        AuditService.getInstance().logAction("create Meniu");
+
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(insertItemMeniuSql, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1, meniuId);
+            pstmt.setString(2, itemMeniu.getNume());
+            pstmt.setString(3, itemMeniu.getDescriere());
+            pstmt.setDouble(4, itemMeniu.getPret());
+            pstmt.executeUpdate();
+
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int itemMeniuId = generatedKeys.getInt(1);
+                itemMeniu.setId(itemMeniuId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    public void addItemToMeniu(ItemMeniu item, int meniuId) {
-        String insertItemMeniuSql = "INSERT INTO item_meniu(meniuId, nume, descriere, pret) VALUES(?, ?, ?, ?)";
-
-        Connection connection = DatabaseConfiguration.getDatabaseConnection();
-
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(insertItemMeniuSql);
-            pstmt.setInt(1, meniuId);
-            pstmt.setString(2, item.getNume());
-            pstmt.setString(3, item.getDescriere());
-            pstmt.setDouble(4, item.getPret());
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public Meniu getMeniuById(int id) {
         String selectSql = "SELECT * FROM meniu WHERE id = ?";
+        AuditService.getInstance().logAction("read Meniu");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
@@ -89,6 +106,7 @@ public class MeniuRepository {
 
     public void updateMeniu(Meniu meniu) {
         String updateSql = "UPDATE meniu SET restaurant_id = ? WHERE id = ?";
+        AuditService.getInstance().logAction("update Meniu");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
@@ -105,6 +123,7 @@ public class MeniuRepository {
     public List<ItemMeniu> getItemsByMeniuId(int meniuId) {
         List<ItemMeniu> items = new ArrayList<>();
         String selectSql = "SELECT * FROM item_meniu WHERE meniuId = ?";
+        AuditService.getInstance().logAction("read Meniu");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
@@ -126,27 +145,29 @@ public class MeniuRepository {
     }
 
     public Meniu getMeniuByRestaurantId(int restaurantId) {
-        String selectSql = "SELECT * FROM meniu WHERE restaurantId = ?";
+        String selectSql = "SELECT im.id as itemId, im.nume, im.descriere, im.pret " +
+                "FROM meniu m " +
+                "JOIN item_meniu im ON m.id = im.meniuId " +
+                "WHERE m.restaurantId = ?";
+        AuditService.getInstance().logAction("read Meniu");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         Meniu meniu = new Meniu();
+        meniu.setRestaurantId(restaurantId);
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
             pstmt.setInt(1, restaurantId);
             ResultSet resultSet = pstmt.executeQuery();
 
-            if (!resultSet.next()) {
-                return null; // Return null if no menu is found for the given restaurant ID
-            }
-
-            do {
+            while (resultSet.next()) {
                 ItemMeniu item = new ItemMeniu();
-                item.setId(resultSet.getInt("id"));
+                item.setId(resultSet.getInt("itemId"));
                 item.setNume(resultSet.getString("nume"));
                 item.setDescriere(resultSet.getString("descriere"));
                 item.setPret(resultSet.getDouble("pret"));
                 meniu.adaugaItemMeniu(item);
-            } while (resultSet.next());
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -157,6 +178,8 @@ public class MeniuRepository {
 
     public ItemMeniu getItemMeniuById(int id) {
         String selectSql = "SELECT * FROM item_meniu WHERE id = ?";
+        AuditService.getInstance().logAction("read Meniu");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
@@ -177,6 +200,7 @@ public class MeniuRepository {
 
     public void deleteMeniu(int id) {
         String deleteSql = "DELETE FROM meniu WHERE id = ?";
+        AuditService.getInstance().logAction("delete Meniu");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {

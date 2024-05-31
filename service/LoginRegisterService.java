@@ -19,20 +19,20 @@ public class LoginRegisterService {
     private RestaurantService restaurantService;
     private MeniuService meniuService;
     private ItemMeniuService itemMeniuService;
-    private ItemComandaService itemComandaService;
     private ComandaService comandaService;
     private static SoferService soferService;
     private static ManagerService managerService;
+    private static ManagerRestaurantService managerRestaurantService;
 
     private LoginRegisterService() {
         this.clientService = ClientService.getInstance();
         this.restaurantService = RestaurantService.getInstance();
         this.meniuService = MeniuService.getInstance();
         this.itemMeniuService = ItemMeniuService.getInstance();
-        this.itemComandaService = ItemComandaService.getInstance();
         this.comandaService = ComandaService.getInstance();
         this.soferService = SoferService.getInstance();
         this.managerService = ManagerService.getInstance();
+        this.managerRestaurantService = ManagerRestaurantService.getInstance();
     }
 
     public static LoginRegisterService getInstance(){
@@ -49,8 +49,8 @@ public class LoginRegisterService {
         meniuService.createTable();
         itemMeniuService.createTable();
         comandaService.createTable();
-        itemComandaService.createTable();
         soferService.createTable();
+        managerRestaurantService.createTable();
     }
 
     public void handleRegistration(Scanner scanner) {

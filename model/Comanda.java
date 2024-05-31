@@ -7,52 +7,47 @@ public class Comanda {
     private int id;
     private Client client;
     private Restaurant restaurant;
-    private List<ItemComanda> listaItemiComandati;
     private String status;
     private double totalPlata;
+    private List<ItemComanda> listaItemiComandati;
 
-    public Comanda(Client client, Restaurant restaurant) {
+    public Comanda(Client client, Restaurant restaurant, String status, double totalPlata) {
         this.client = client;
         this.restaurant = restaurant;
+        this.status = status;
+        this.totalPlata = totalPlata;
         this.listaItemiComandati = new ArrayList<>();
-        this.status = "Nou";
-        this.totalPlata = 0.0;
     }
 
     public Comanda() {
-        this.client = new Client();
-        this.restaurant = new Restaurant();
+        this.client = null;
+        this.restaurant = null;
+        this.status = null;
+        this.totalPlata = 0;
         this.listaItemiComandati = new ArrayList<>();
-        this.status = "Nou";
-        this.totalPlata = 0.0;
+    }
+    public int getId() {
+        return id;
     }
 
-    public void adaugaItemComanda(ItemComanda item) {
-        listaItemiComandati.add(item);
-        calculeazaTotal();
-    }
-
-    public void calculeazaTotal() {
-        double totalItems = listaItemiComandati.stream()
-                .mapToDouble(item -> item.getItemMeniu().getPret() * item.getCantitate())
-                .sum();
-        if (client != null && client.getIsPremium()) {
-            this.totalPlata = totalItems; // Clienții premium nu platesc costul de livrare
-        } else {
-            this.totalPlata = totalItems + (restaurant != null ? restaurant.getCostLivrare() : 0); // Include costul de livrare daca restaurantul este setat
-        }
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Client getClient() {
         return client;
     }
 
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     public Restaurant getRestaurant() {
         return restaurant;
     }
 
-    public List<ItemComanda> getListaItemiComandati() {
-        return listaItemiComandati;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public String getStatus() {
@@ -71,15 +66,15 @@ public class Comanda {
         this.totalPlata = totalPlata;
     }
 
+    public List<ItemComanda> getListaItemiComandati() {
+        return listaItemiComandati;
+    }
+
     public void setListaItemiComandati(List<ItemComanda> listaItemiComandati) {
         this.listaItemiComandati = listaItemiComandati;
     }
 
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void adaugaItemComanda(ItemComanda itemComanda) {
+        this.listaItemiComandati.add(itemComanda);
     }
 }

@@ -2,6 +2,7 @@ package repository;
 
 import config.DatabaseConfiguration;
 import model.Restaurant;
+import service.AuditService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,6 +22,7 @@ public class RestaurantRepository {
                 "cost_livrare DOUBLE)";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        AuditService.getInstance().logAction("create Table Restaurants");
 
         try {
             Statement stmt = connection.createStatement();
@@ -30,8 +32,10 @@ public class RestaurantRepository {
         }
     }
 
-    public void addRestaurant(Restaurant restaurant) {
+
+    public int addRestaurant(Restaurant restaurant) {
         String insertRestaurantSql = "INSERT INTO restaurants(nume, adresa, cost_livrare) VALUES(?, ?, ?)";
+        AuditService.getInstance().logAction("create Restaurants");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
@@ -45,16 +49,18 @@ public class RestaurantRepository {
 
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             if (generatedKeys.next()) {
-                int restaurantId = generatedKeys.getInt(1);
-                restaurant.setId(restaurantId);
+                return generatedKeys.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1;
     }
 
     public Restaurant getRestaurantById(int id) {
         String selectSql = "SELECT * FROM restaurants WHERE id = ?";
+        AuditService.getInstance().logAction("read Restaurants");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
             PreparedStatement pstmt = connection.prepareStatement(selectSql);
@@ -76,6 +82,7 @@ public class RestaurantRepository {
 
     public void updateRestaurant(Restaurant restaurant) {
         String updateSql = "UPDATE restaurants SET nume = ?, adresa = ?, cost_livrare = ? WHERE id = ?";
+        AuditService.getInstance().logAction("update Restaurants");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
@@ -93,6 +100,7 @@ public class RestaurantRepository {
 
     public void deleteRestaurant(int id) {
         String deleteSql = "DELETE FROM restaurants WHERE id = ?";
+        AuditService.getInstance().logAction("delete Restaurants");
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         try {
@@ -105,6 +113,8 @@ public class RestaurantRepository {
     }
     public List<Restaurant> getAllRestaurants() {
         String selectSql = "SELECT * FROM restaurants";
+        AuditService.getInstance().logAction("read Restaurants");
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
         List<Restaurant> restaurants = new ArrayList<>();
         try {
