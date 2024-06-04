@@ -54,9 +54,9 @@ public class LoginRegisterService {
     }
 
     public void handleRegistration(Scanner scanner) {
-        System.out.println("1. Înregistrare Client");
-        System.out.println("2. Înregistrare Manager");
-        System.out.println("3. Înregistrare Șofer");
+        System.out.println("1. Inregistrare Client");
+        System.out.println("2. Inregistrare Manager");
+        System.out.println("3. Inregistrare Sofer");
 
         int choice = Integer.parseInt(scanner.nextLine());
 
@@ -71,7 +71,7 @@ public class LoginRegisterService {
                 registerSofer(scanner);
                 break;
             default:
-                System.out.println("Opțiune invalidă.");
+                System.out.println("Opțiune invalida.");
         }
     }
 
@@ -96,18 +96,18 @@ public class LoginRegisterService {
         boolean isPremium = Boolean.parseBoolean(scanner.nextLine());
 
         if (managerService.emailExists(email)) {
-            System.out.println("Emailul există deja. Vă rugăm să folosiți un alt email.");
+            System.out.println("Emailul exista deja. Va rugam sa folositi un alt email.");
             return;
         }
 
         if (managerService.usernameExists(username)) {
-            System.out.println("Username-ul există deja. Vă rugăm să folosiți un alt username.");
+            System.out.println("Username-ul exista deja. Va rugam sa folositi un alt username.");
             return;
         }
 
         Client client = new Client(nume, email, username, password, strada,numar,oras, isPremium);
         clientService.create(client);
-        System.out.println("Client înregistrat cu succes!");
+        System.out.println("Client inregistrat cu succes!");
     }
 
     private static void registerManager(Scanner scanner) {
@@ -123,18 +123,18 @@ public class LoginRegisterService {
         String password = scanner.nextLine();
 
         if (managerService.emailExists(email)) {
-            System.out.println("Emailul există deja. Vă rugăm să folosiți un alt email.");
+            System.out.println("Emailul exista deja. Va rugam sa folositi un alt email.");
             return;
         }
 
         if (managerService.usernameExists(username)) {
-            System.out.println("Username-ul există deja. Vă rugăm să folosiți un alt username.");
+            System.out.println("Username-ul exista deja. Va rugam sa folositi un alt username.");
             return;
         }
 
         Manager manager = new Manager(nume, email, username, password);
         managerService.create(manager);
-        System.out.println("Manager înregistrat cu succes!");
+        System.out.println("Manager inregistrat cu succes!");
     }
 
     private static void registerSofer(Scanner scanner) {
@@ -152,18 +152,18 @@ public class LoginRegisterService {
         String locatie = scanner.nextLine();
 
         if (soferService.emailExists(email)) {
-            System.out.println("Emailul există deja. Vă rugăm să folosiți un alt email.");
+            System.out.println("Emailul exista deja. Va rugam sa folositi un alt email.");
             return;
         }
 
         if (soferService.usernameExists(username)) {
-            System.out.println("Username-ul există deja. Vă rugăm să folosiți un alt username.");
+            System.out.println("Username-ul exista deja. Vă rugam sa folositi un alt username.");
             return;
         }
 
         Sofer sofer = new Sofer(nume, email, username, password, locatie);
         soferService.create(sofer);
-        System.out.println("Șofer înregistrat cu succes!");
+        System.out.println("Sofer inregistrat cu succes!");
     }
 
 
@@ -200,10 +200,10 @@ public class LoginRegisterService {
         Client client = clientService.getClientByUsernameAndPassword(username, password);
 
         if (client != null) {
-            System.out.println("Autentificare reușită!");
+            System.out.println("Autentificare reusita!");
             clientService.handleClientActions(client, scanner);
         } else {
-            System.out.println("Autentificare eșuată!");
+            System.out.println("Autentificare esuata!");
         }
     }
 
@@ -218,10 +218,10 @@ public class LoginRegisterService {
         Manager manager = managerService.getManagerByUsernameAndPassword(username, password);
 
         if (manager != null) {
-            System.out.println("Autentificare reușită!");
+            System.out.println("Autentificare reusita!");
             managerService.handleManagerActions(manager, scanner);
         } else {
-            System.out.println("Autentificare eșuată!");
+            System.out.println("Autentificare esuata!");
         }
     }
 
@@ -236,10 +236,10 @@ public class LoginRegisterService {
         Sofer sofer = soferService.getSoferByUsernameAndPassword(username, password);
 
         if (sofer != null) {
-            System.out.println("Autentificare reușită!");
+            System.out.println("Autentificare reusita!");
             soferService.handleSoferActions(sofer, scanner);
         } else {
-            System.out.println("Autentificare eșuată!");
+            System.out.println("Autentificare esuata!");
         }
     }
 

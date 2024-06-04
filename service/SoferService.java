@@ -45,9 +45,6 @@ public class SoferService implements CRUDService<Sofer> {
         soferRepository.createTable();
     }
 
-    public int getIdByUsername(String username) {
-        return soferRepository.getIdByUsername(username);
-    }
 
     public boolean usernameExists(String username) {
         return soferRepository.usernameExists(username);
@@ -70,7 +67,7 @@ public class SoferService implements CRUDService<Sofer> {
             soferService.delete(soferRepository.getIdByUsername(sofer.getUsername()));
             System.out.println("Contul a fost șters cu succes.");
         } else {
-            System.out.println("Ștergerea contului a fost anulată.");
+            System.out.println("Ștergerea contului a fost anulata.");
         }
     }
 
@@ -89,7 +86,6 @@ public class SoferService implements CRUDService<Sofer> {
 
             if (choice == 1) {
                 System.out.println("Nume: " + sofer.getNume());
-                System.out.println("Email: " + sofer.getEmail());
                 System.out.println("Username: " + sofer.getUsername());
                 System.out.println("Locatie: " + sofer.getLocatie());
                 System.out.println("Disponibilitate: " + sofer.getDisponibilitate());

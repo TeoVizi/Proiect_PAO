@@ -6,3 +6,59 @@ delete Client,2024-05-31 23:00:22
 creare Tabel Client,2024-05-31 23:02:53
 creare Client,2024-05-31 23:03:04
 read Client,2024-05-31 23:03:19
+creare Tabel Client,2024-06-04 17:23:18
+create Table Managers,2024-06-04 17:23:18
+create Table Restaurants,2024-06-04 17:23:18
+create Table Meniu,2024-06-04 17:23:18
+create Table ItemMeniu,2024-06-04 17:23:18
+creare Tabel Comanda,2024-06-04 17:23:18
+create Table Soferi,2024-06-04 17:23:18
+create Table ManagersRestaurants,2024-06-04 17:23:18
+read Soferi,2024-06-04 17:23:28
+read Soferi,2024-06-04 17:23:28
+create Soferi,2024-06-04 17:23:28
+read Soferi,2024-06-04 17:23:36
+creare Tabel Client,2024-06-04 17:34:49
+create Table Managers,2024-06-04 17:34:49
+create Table Restaurants,2024-06-04 17:34:49
+create Table Meniu,2024-06-04 17:34:49
+create Table ItemMeniu,2024-06-04 17:34:49
+creare Tabel Comanda,2024-06-04 17:34:49
+create Table Soferi,2024-06-04 17:34:49
+create Table ManagersRestaurants,2024-06-04 17:34:49
+creare Tabel Client,2024-06-04 17:35:45
+create Table Managers,2024-06-04 17:35:45
+create Table Restaurants,2024-06-04 17:35:45
+create Table Meniu,2024-06-04 17:35:45
+create Table ItemMeniu,2024-06-04 17:35:45
+creare Tabel Comanda,2024-06-04 17:35:45
+create Table Soferi,2024-06-04 17:35:45
+create Table ManagersRestaurants,2024-06-04 17:35:45
+read Soferi,2024-06-04 17:35:51
+update Soferi,2024-06-04 17:36:01
+read Soferi,2024-06-04 17:36:01
+update Soferi,2024-06-04 17:36:08
+read Soferi,2024-06-04 17:36:08
+read Soferi,2024-06-04 17:36:17
+read Soferi,2024-06-04 17:36:26
+read Soferi,2024-06-04 17:36:30
+delete Soferi,2024-06-04 17:36:30
+read Soferi,2024-06-04 17:36:36
+read Managers,2024-06-04 17:36:48
+read Managers,2024-06-04 17:36:48
+create Managers,2024-06-04 17:36:48
+read Managers,2024-06-04 17:36:55
+read ManagersRestaurants,2024-06-04 17:37:02
+create Restaurants,2024-06-04 17:37:16
+create ManagersRestaurants,2024-06-04 17:37:16
+read ManagersRestaurants,2024-06-04 17:37:19
+create Meniu,2024-06-04 17:37:33
+create ItemMeniu,2024-06-04 17:37:33
+read Client,2024-06-04 17:37:53
+read Managers,2024-06-04 17:38:07
+read Client,2024-06-04 17:38:33
+read Restaurants,2024-06-04 17:38:38
+read Meniu,2024-06-04 17:38:46
+read Meniu,2024-06-04 17:39:05
+read Restaurants,2024-06-04 17:39:10
+create Comanda,2024-06-04 17:39:10

@@ -68,21 +68,20 @@ public class ManagerService implements CRUDService<Manager> {
     private void deleteAccount(Manager manager, Scanner scanner) {
         ManagerService managerService = ManagerService.getInstance();
 
-        System.out.print("Sunteți sigur că doriți să vă ștergeți contul? (da/nu): ");
+        System.out.print("Sunteti sigur ca doriti sa va stergeti contul? (da/nu): ");
         String response = scanner.nextLine();
 
         if (response.equalsIgnoreCase("da")) {
             managerService.delete(managerRepository.getIdByUsername(manager.getUsername()));
-            System.out.println("Contul a fost șters cu succes.");
+            System.out.println("Contul a fost sters cu succes.");
         } else {
-            System.out.println("Ștergerea contului a fost anulată.");
+            System.out.println("Stergerea contului a fost anulata.");
         }
     }
 
     public void viewAccountInformation(Manager manager) {
-        System.out.println("Account Information:");
+        System.out.println("Informatii de Cont:");
         System.out.println("Name: " + manager.getNume());
-        System.out.println("Email: " + manager.getEmail());
         System.out.println("Username: " + manager.getUsername());
     }
 
@@ -112,7 +111,7 @@ public class ManagerService implements CRUDService<Manager> {
         List<Restaurant> restaurants = ManagerRestaurantService.getInstance().getRestaurantsByManagerId(managerId);
 
         if (restaurants.isEmpty()) {
-            System.out.println("Nu există restaurante asociate acestui manager.");
+            System.out.println("Nu exista restaurante asociate acestui manager.");
         } else {
             System.out.println("Restaurante asociate managerului:");
             for (Restaurant restaurant : restaurants) {
@@ -130,14 +129,14 @@ public class ManagerService implements CRUDService<Manager> {
 
         System.out.print("Nume restaurant: ");
         String nume = scanner.nextLine();
-        System.out.print("Adresă: ");
+        System.out.print("Adresa: ");
         String adresa = scanner.nextLine();
         System.out.print("Cost livrare: ");
         double costLivrare = Double.parseDouble(scanner.nextLine());
 
         managerService.addRestaurantDB(nume, adresa, costLivrare, manager.getId());
 
-        System.out.println("Restaurant adăugat cu succes!");
+        System.out.println("Restaurant adaugat cu succes!");
     }
 
     private static void addMenuToRestaurant(Scanner scanner) {
@@ -146,7 +145,7 @@ public class ManagerService implements CRUDService<Manager> {
         System.out.print("Introduceți ID-ul restaurantului: ");
         int restaurantId = Integer.parseInt(scanner.nextLine());
 
-        System.out.println("Introduceți produsele pentru meniu (tastați 'stop' pentru a termina):");
+        System.out.println("Introduceti produsele pentru meniu (tastați 'stop' pentru a termina):");
 
         List<ItemMeniu> items = new ArrayList<>();
         while (true) {
@@ -157,7 +156,7 @@ public class ManagerService implements CRUDService<Manager> {
             }
             System.out.print("Descriere: ");
             String descriere = scanner.nextLine();
-            System.out.print("Preț: ");
+            System.out.print("Pret: ");
             double pret = Double.parseDouble(scanner.nextLine());
 
             ItemMeniu item = new ItemMeniu(nume, descriere, pret, restaurantId);
@@ -165,7 +164,7 @@ public class ManagerService implements CRUDService<Manager> {
         }
 
         managerService.addMenuToRestaurantDB(restaurantId, items);
-        System.out.println("Meniu adăugat cu succes la restaurant!");
+        System.out.println("Meniu adaugat cu succes la restaurant!");
     }
 
     private static void removeRestaurant(Scanner scanner) {
@@ -182,26 +181,26 @@ public class ManagerService implements CRUDService<Manager> {
     private static void changePassword(Manager manager, Scanner scanner) {
         ManagerService managerService = ManagerService.getInstance();
 
-        System.out.print("Introduceți noua parolă: ");
+        System.out.print("Introduceti noua parola: ");
         String newPassword = scanner.nextLine();
 
         manager.setParola(newPassword);
         managerService.update(manager);
 
-        System.out.println("Parolă modificată cu succes!");
+        System.out.println("Parola modificata cu succes!");
     }
 
     public static void handleManagerActions(Manager manager, Scanner scanner) {
         ManagerService managerService = ManagerService.getInstance();
 
         while (true) {
-            System.out.println("1. Vizualizare informații cont");
+            System.out.println("1. Vizualizare informatii cont");
             System.out.println("2. Vizualizare restaurantele tale");
-            System.out.println("3. Adăugare restaurant");
-            System.out.println("4. Adăugare meniu la restaurant");
-            System.out.println("5. Ștergere restaurant");
-            System.out.println("6. Modificare parolă");
-            System.out.println("7. Ștergere cont");
+            System.out.println("3. Adaugare restaurant");
+            System.out.println("4. Adaugare meniu la restaurant");
+            System.out.println("5. Stergere restaurant");
+            System.out.println("6. Modificare parola");
+            System.out.println("7. Stergere cont");
             System.out.println("8. Deconectare");
             int choice = Integer.parseInt(scanner.nextLine());
 
@@ -230,7 +229,7 @@ public class ManagerService implements CRUDService<Manager> {
                 case 8:
                     return;
                 default:
-                    System.out.println("Opțiune invalidă.");
+                    System.out.println("Optiune invalida.");
             }
         }
     }

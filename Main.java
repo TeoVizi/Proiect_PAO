@@ -31,7 +31,7 @@ public class Main {
                     System.out.println("La revedere!");
                     return;
                 default:
-                    System.out.println("Opțiune invalida.");
+                    System.out.println("Optiune invalida.");
             }
         }
 

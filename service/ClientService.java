@@ -62,25 +62,24 @@ public class ClientService implements CRUDService<Client> {
     }
 
     public void viewAccountInformation(Client client) {
-        System.out.println("Account Information:");
-        System.out.println("Name: " + client.getNume());
-        System.out.println("Email: " + client.getEmail());
+        System.out.println("Informatii Cont:");
+        System.out.println("Nume: " + client.getNume());
         System.out.println("Username: " + client.getUsername());
-        System.out.println("Address: " + client.getAdresaCompleta());
+        System.out.println("Adresa: " + client.getAdresaCompleta());
         System.out.println("Premium: " + client.getIsPremium());
     }
 
     private void deleteAccount(Client client, Scanner scanner) {
         ClientService clientService = ClientService.getInstance();
 
-        System.out.print("Sunteți sigur că doriți să vă ștergeți contul? (da/nu): ");
+        System.out.print("Sunteti sigur ca doriti sa va stergeti contul? (da/nu): ");
         String response = scanner.nextLine();
 
         if (response.equalsIgnoreCase("da")) {
             clientService.delete(clientRepository.getIdByUsername(client.getUsername()));
-            System.out.println("Contul a fost șters cu succes.");
+            System.out.println("Contul a fost sters cu succes.");
         } else {
-            System.out.println("Ștergerea contului a fost anulată.");
+            System.out.println("Stergerea contului a fost anulata.");
         }
     }
 
@@ -93,14 +92,14 @@ public class ClientService implements CRUDService<Client> {
 
         System.out.print("Introduceți ID-ul produsului: ");
         int itemId = Integer.parseInt(scanner.nextLine());
-        System.out.print("Introduceți cantitatea: ");
+        System.out.print("Introduceti cantitatea: ");
         int cantitate = Integer.parseInt(scanner.nextLine());
 
         ItemMeniu item = MeniuService.getInstance().getItemMeniuById(itemId);
         ItemComanda itemComanda = new ItemComanda(item, cantitate);
         clientService.addItemToCart(itemComanda);
 
-        System.out.println("Produs adăugat în coș.");
+        System.out.println("Produs adaugat în cos.");
     }
 
     public List<ItemComanda> getCurrentCart() {
@@ -114,17 +113,17 @@ public class ClientService implements CRUDService<Client> {
     public static void changePassword(Client client, Scanner scanner) {
         ClientService clientService = ClientService.getInstance();
 
-        System.out.print("Introduceți noua parolă: ");
+        System.out.print("Introduceti noua parola: ");
         String newPassword = scanner.nextLine();
 
         client.setParola(newPassword);
         clientService.update(client);
 
-        System.out.println("Parolă modificată cu succes!");
+        System.out.println("Parola modificata cu succes!");
     }
 
     public static void viewRestaurantMenu(Scanner scanner) {
-        System.out.print("Introduceți ID-ul restaurantului: ");
+        System.out.print("Introduceti ID-ul restaurantului: ");
         int restaurantId = Integer.parseInt(scanner.nextLine());
 
         Meniu meniu = MeniuService.getInstance().getMeniuByRestaurantId(restaurantId);
@@ -135,7 +134,7 @@ public class ClientService implements CRUDService<Client> {
                 System.out.println(item.getId()+": "+item.getNume() + ": " + item.getDescriere() + " - " + item.getPret());
             }
         } else {
-            System.out.println("Nu există meniu pentru acest restaurant.");
+            System.out.println("Nu exista meniu pentru acest restaurant.");
         }
     }
 
@@ -144,7 +143,7 @@ public class ClientService implements CRUDService<Client> {
         List<Restaurant> restaurants = restaurantService.getAll();
 
         if (restaurants.isEmpty()) {
-            System.out.println("Nu există restaurante disponibile.");
+            System.out.println("Nu exista restaurante disponibile.");
         } else {
             System.out.println("Restaurante disponibile:");
             for (Restaurant restaurant : restaurants) {
@@ -162,7 +161,7 @@ public class ClientService implements CRUDService<Client> {
 
         List<ItemComanda> cart = clientService.getCurrentCart();
 
-        System.out.println("Produse în coș:");
+        System.out.println("Produse în cos:");
         for (ItemComanda item : cart) {
             System.out.println(item.getItemMeniu().getNume() + ": " + item.getCantitate());
         }
@@ -190,7 +189,7 @@ public class ClientService implements CRUDService<Client> {
             comandaService.create(comanda);
 
             clientService.clearCart();
-            System.out.println("Comandă plasată cu succes!" + " Total plata: " + totalPlata);
+            System.out.println("Comanda plasata cu succes!" + " Total plata: " + totalPlata);
         } else {
             System.out.println("Restaurant invalid.");
         }
@@ -200,14 +199,14 @@ public class ClientService implements CRUDService<Client> {
         ClientService clientService = ClientService.getInstance();
 
         while (true) {
-            System.out.println("1. Vizualizare informații cont");
+            System.out.println("1. Vizualizare informatii cont");
             System.out.println("2. Vizualizare restaurante");
             System.out.println("3. Vizualizare meniu restaurant");
-            System.out.println("4. Adăugare produs în coș");
-            System.out.println("5. Vizualizare coș curent");
-            System.out.println("6. Plasare comandă");
-            System.out.println("7. Modificare parolă");
-            System.out.println("8. Ștergere cont");
+            System.out.println("4. Adaugare produs in cos");
+            System.out.println("5. Vizualizare cos curent");
+            System.out.println("6. Plasare comanda");
+            System.out.println("7. Modificare parola");
+            System.out.println("8. Stergere cont");
             System.out.println("9. Deconectare");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -240,7 +239,7 @@ public class ClientService implements CRUDService<Client> {
                 case 9:
                     return;
                 default:
-                    System.out.println("Opțiune invalidă.");
+                    System.out.println("Optiune invalida.");
             }
         }
     }
